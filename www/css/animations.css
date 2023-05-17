@@ -1,0 +1,8 @@
+.enlargeOnHover {
+    transition: transform 0.2s ease-in-out;
+    transition-duration: 0.2s;
+}
+
+.enlargeOnHover:hover {
+    transform: scale(1.03);
+}

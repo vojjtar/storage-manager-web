@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {block content}
+
+    <div class="mx-5 mt-2">
+        <div class="bg-secondary p-2 rounded-top">
+            <button class="btn btn-sm btn-success">add item</button>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Product Code</th>
+                    <th scope="col">Price ($USD)</th>
+                    <th scope="col">Detail</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Move</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>CPU</td>
+                    <td>3rd gen Intel CPU chip</td>
+                    <td>858433</td>
+                    <td>129.2</td>
+                    <td><button class="btn btn-sm btn-info">Detail <i class="fa-solid fa-info"></i></button></td>
+                    <td><button class="btn btn-sm btn-warning">Edit <i class="fa-solid fa-pencil"></i></button></td>
+                    <td><button class="btn btn-sm btn-warning">Move <i class="fa-solid fa-arrow-right"></i></button></td>
+                    <td><button class="btn btn-sm btn-danger">Delete <i class="fa-solid fa-trash"></i></button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>
