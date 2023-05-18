@@ -14,29 +14,29 @@
     <div class="container">
         <div class="row">
 
-        {foreach $testList as $item}
-            <div class="col-md-4 mt-4">
-                <div class="card shadow enlargeOnHover" style="height: 12rem;">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">Storage {$item}</h5>
-                        <p class="card-text m-0">Total number of products: {$item}</p>
-                        <p class="card-text m-0">Location: Kutna Hora</p>
-                        <div class="ml-auto mt-4">
-                            <a class="ml-auto" n:href="Storage:default"><button class="btn btn-info"><i class="fa-solid fa-eye"></i></button></a>
-                            <a class="ml-auto" n:href="Storage:default"><button class="btn btn-info">Edit</button></a>
-                            <a class="ml-auto" n:href="Storage:default"><button class="btn btn-info">View</button></a>
+            {foreach $testList as $item}
+                <div class="col-md-4 mt-4">
+                    <div class="card shadow enlargeOnHover" style="height: 12rem;">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">Storage {$item}</h5>
+                            <p class="card-text m-0">Total number of products: {$item}</p>
+                            <p class="card-text m-0">Location: Kutna Hora</p>
+                            <div class="ml-auto mt-4">
+                                <a class="ml-auto" n:href="Storage:default"><button class="btn btn-info"><i class="fa-solid fa-eye"></i></button></a>
+                                <a class="ml-auto" n:href="Storage:default"><button class="btn btn-info">Edit</button></a>
+                                <a class="ml-auto" n:href="Storage:default"><button class="btn btn-info">View</button></a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        {/foreach}
-            <div class="col-md-4 mt-4 d-flex">
-                <div class="card shadow enlargeOnHover flex-grow-1" style="height: 12rem;">
-                    <button class="btn btn-success flex-grow-1">
-                        <i class="fa-solid fa-plus"></i>
-                    </button>
+            {/foreach}
+                <div class="col-md-4 mt-4 d-flex">
+                    <div class="card shadow enlargeOnHover flex-grow-1" style="height: 12rem;">
+                        <button class="btn btn-success flex-grow-1">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
                 </div>
-            </div>
 
         </div>
     </div> 

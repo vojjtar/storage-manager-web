@@ -3,5 +3,26 @@ parameters:
 
 database:
 	dsn: 'mysql:host=127.0.0.1;dbname=test'
-	user:
+	user: root
 	password:
+
+extensions:
+    doctrine: Doctrine\Extensions\Nette\DI\OrmExtension
+
+doctrine:
+    connection:
+        driver: pdo_mysql
+        host: localhost
+        dbname: your_database_name
+        user: your_username
+        password: your_password
+        charset: utf8mb4
+
+    entity:
+        mappings:
+            App:
+                type: annotation
+                dir: %appDir%/Model/Entity
+                isSimpleMode: false
+                prefix: App\Model\Entity
+                alias: App
