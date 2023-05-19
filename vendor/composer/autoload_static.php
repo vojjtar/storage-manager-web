@@ -34,9 +34,15 @@ class ComposerStaticInitbaffb8a8445739b6af190f33738c6458
         ),
         'P' => 
         array (
-            'Psr\\Log\\' => 8,
             'Psr\\Container\\' => 14,
             'Psr\\Cache\\' => 10,
+        ),
+        'N' => 
+        array (
+            'Nettrine\\ORM\\' => 13,
+            'Nettrine\\DBAL\\' => 14,
+            'Nettrine\\Cache\\' => 15,
+            'Nettrine\\Annotations\\' => 21,
         ),
         'D' => 
         array (
@@ -51,6 +57,11 @@ class ComposerStaticInitbaffb8a8445739b6af190f33738c6458
             'Doctrine\\Common\\Cache\\' => 22,
             'Doctrine\\Common\\Annotations\\' => 28,
             'Doctrine\\Common\\' => 16,
+        ),
+        'C' => 
+        array (
+            'Contributte\\DI\\' => 15,
+            'Contributte\\Console\\' => 20,
         ),
         'A' => 
         array (
@@ -99,10 +110,6 @@ class ComposerStaticInitbaffb8a8445739b6af190f33738c6458
         array (
             0 => __DIR__ . '/..' . '/symfony/console',
         ),
-        'Psr\\Log\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/psr/log/src',
-        ),
         'Psr\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
@@ -110,6 +117,22 @@ class ComposerStaticInitbaffb8a8445739b6af190f33738c6458
         'Psr\\Cache\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/cache/src',
+        ),
+        'Nettrine\\ORM\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nettrine/orm/src',
+        ),
+        'Nettrine\\DBAL\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nettrine/dbal/src',
+        ),
+        'Nettrine\\Cache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nettrine/cache/src',
+        ),
+        'Nettrine\\Annotations\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nettrine/annotations/src',
         ),
         'Doctrine\\Persistence\\' => 
         array (
@@ -133,7 +156,7 @@ class ComposerStaticInitbaffb8a8445739b6af190f33738c6458
         ),
         'Doctrine\\DBAL\\' => 
         array (
-            0 => __DIR__ . '/..' . '/doctrine/dbal/src',
+            0 => __DIR__ . '/..' . '/doctrine/dbal/lib/Doctrine/DBAL',
         ),
         'Doctrine\\Common\\Lexer\\' => 
         array (
@@ -153,8 +176,16 @@ class ComposerStaticInitbaffb8a8445739b6af190f33738c6458
         ),
         'Doctrine\\Common\\' => 
         array (
-            0 => __DIR__ . '/..' . '/doctrine/common/src',
-            1 => __DIR__ . '/..' . '/doctrine/event-manager/src',
+            0 => __DIR__ . '/..' . '/doctrine/event-manager/src',
+            1 => __DIR__ . '/..' . '/doctrine/common/src',
+        ),
+        'Contributte\\DI\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/contributte/di/src',
+        ),
+        'Contributte\\Console\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/contributte/console/src',
         ),
         'App\\' => 
         array (

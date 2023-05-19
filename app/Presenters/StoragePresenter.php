@@ -10,5 +10,9 @@ use Nette\Application\UI\Presenter;
 
 final class StoragePresenter extends Presenter
 {
-    
+    public function renderDefault()
+    {
+        $myVariable = 'Hello, Latte!';
+        $this->template->myVariable = $myVariable;
+    }
 }
