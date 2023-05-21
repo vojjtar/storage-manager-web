@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Model\Entity\Storage;
 use App\Model\Entity\Warehouse;
 use Nette\Application\UI\Form;
+use Nette\Utils\ArrayHash;
 
 
 final class StoragePresenter extends Presenter
@@ -75,10 +76,11 @@ final class StoragePresenter extends Presenter
         $form = new Form;
 
         foreach ($warehouses as $warehouse) {
-            $form->addButton(strval($warehouse->getId()), $warehouse->getName())->getControlPrototype()->type('submit');;
+            $form->addButton(strval($warehouse->getId()), $warehouse->getName())->setHtmlAttribute('class', 'btn btn-primary')
+                                                                                ->getControlPrototype()->type('submit');
         }
 
-        $form->addHidden('warehouse_id', $this->getParameter('id'));
+        #$form->addHidden('warehouse_id', $this->getParameter('id'));
         $form->addHidden('id');
 
         //$form->addSelect('id', 'Choose storage:', $warehouses);
@@ -140,13 +142,27 @@ final class StoragePresenter extends Presenter
 
     public function moveStorage(Form $form, $data): void
     {
-        foreach ($data as $item) {
-            if ($item != null) {
-                var_dump($item);
+        $item_id = $data['id'];
+
+        foreach ($data as $key => $value) {
+            if ($value === null) {
+                $data->offsetUnset($key);
             }
-
-
         }
-        die();
+
+        $data = array_keys((array) $data);
+
+        $warehouse_to = $data[0];
+
+        $queryBuilder = $this->entityManager->createQueryBuilder();
+        $queryBuilder->update(Storage::class, 's')->set('s.warehouse_id', ':warehouse_id')->where('s.id = :item_id')
+                                                  ->setParameter('warehouse_id', $warehouse_to)
+                                                  ->setParameter('item_id', $item_id);
+        
+        $queryBuilder->getQuery()->execute();
+
+        $this->flashMessage('Storage moved.');
+		$this->redirect('this');
+
     }
 }
