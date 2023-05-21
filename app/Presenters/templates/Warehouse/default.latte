@@ -1,3 +1,5 @@
+{* {templateType App\Presenters\templates\Warehouse\default} *}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,36 +11,62 @@
 <body>
     {block content}
 
-    {var $testList = [1, 2, 3, 4]}
-
     <div class="container">
         <div class="row">
-
-            {foreach $testList as $item}
+            {foreach $warehouses as $warehouse}
                 <div class="col-md-4 mt-4">
                     <div class="card shadow enlargeOnHover" style="height: 12rem;">
                         <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Storage {$item} {$wareHouse}</h5>
-                            <p class="card-text m-0">Total number of products: {$item}</p>
-                            <p class="card-text m-0">Location: Kutna Hora</p>
+                            <h5 class="card-title">{$warehouse->getName()}</h5>
+                            <p class="card-text m-0">Location: {$warehouse->getLocation()}</p>
+                            <p class="card-text m-0">Owner: {$warehouse->getEmail()}</p>
+                            <p hidden>{$warehouse->getId()}</p>
                             <div class="ml-auto mt-4">
                                 <a class="ml-auto" n:href="Storage:default"><button class="btn btn-info"><i class="fa-solid fa-eye"></i></button></a>
-                                <a class="ml-auto" n:href="Storage:default"><button class="btn btn-info">Edit</button></a>
-                                <a class="ml-auto" n:href="Storage:default"><button class="btn btn-info">View</button></a>
+                                <a class="ml-auto" data-toggle="modal" data-target="#storage-edit" data-id="{$warehouse->getId()}" data-name="{$warehouse->getName()}" data-location="{$warehouse->getLocation()}" data-email="{$warehouse->getEmail()}"><button class="btn btn-info">Edit</button></a>
+                                <a class="ml-auto" n:href="Storage:default, $warehouse->getId()"><button class="btn btn-info">View</button></a>
                             </div>
                         </div>
                     </div>
                 </div>
             {/foreach}
-                <div class="col-md-4 mt-4 d-flex">
-                    <div class="card shadow enlargeOnHover flex-grow-1" style="height: 12rem;">
-                        <button class="btn btn-success flex-grow-1">
-                            <i class="fa-solid fa-plus"></i>
-                        </button>
-                    </div>
+            <div class="col-md-4 mt-4 d-flex">
+                <div class="card shadow enlargeOnHover flex-grow-1" style="height: 12rem;">
+                    <button type="button" class="btn btn-success flex-grow-1" data-toggle="modal" data-target="#storage-add">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
                 </div>
-
+            </div>
         </div>
-    </div> 
+    </div>
+    
+    <div id="storage-add" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add warehouse</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    {control warehouseForm}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="storage-edit" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit storage</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    {control warehouseEditForm}
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
+    <script src="{$basePath}/js/modalControl.js"></script>
 </html>

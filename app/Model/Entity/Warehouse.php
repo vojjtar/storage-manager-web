@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity]
 class Warehouse
 {
-    #[ORM\Column(type: 'int', nullable: true, generated: true)]
+    #[ORM\Column(type: 'integer'), ORM\Id, ORM\GeneratedValue(strategy: 'AUTO')]
     private $id;
 
     #[ORM\Column(type: 'string')]
@@ -19,6 +19,9 @@ class Warehouse
 
     #[ORM\Column(type: 'string')]
     private $location;
+
+    #[ORM\Column(type: 'string')]
+    private $email;
 
 
     public function getId(): int
@@ -44,6 +47,16 @@ class Warehouse
     public function setLocation(string $location): void
     {
         $this->location = $location;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): void
+    {
+        $this->email = $email;
     }
 
 }

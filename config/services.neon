@@ -9,3 +9,4 @@ search:
 services:
 	- App\Router\RouterFactory::createRouter
 	- App\Model\Entity\Warehouse
+
