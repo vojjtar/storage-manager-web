@@ -7,93 +7,56 @@ namespace App\Presenters;
 
 use Nette;
 use Nette\Application\UI\Presenter;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Model\Entity\Warehouse;
 use Nette\Application\UI\Form;
+use App\Model\Service\WarehouseService;
+use App\Form\WarehouseFormFactory;
 
 
 class WarehousePresenter extends Presenter
 {
-    private EntityManagerInterface $entityManager;
+    private WarehouseService $warehouseService;
+    private WarehouseFormFactory $warehouseFormFactory;
 
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
+    public function __construct(
+        WarehouseService $warehouseService,
+        WarehouseFormFactory $warehouseFormFactory
+    ) {
+        $this->warehouseService = $warehouseService;
+        $this->warehouseFormFactory = $warehouseFormFactory;
     }
 
     public function renderDefault()
     {
-        $this->template->warehouses = $this->getWarehouse('all');
+        $this->template->warehouses = $this->warehouseService->getWarehouse('all');
     }
 
-    public function createComponentWarehouseForm(): Form
-    {
-		$form = new Form;
-		$form->addText('name', 'Name:')->setRequired()->setHtmlAttribute('class', 'form-control');
-		$form->addText('location', 'Location:')->setRequired()->setHtmlAttribute('class', 'form-control');
-		$form->addText('email', 'Owner email:')->setRequired()->setHtmlAttribute('class', 'form-control');
-		$form->addSubmit('send', 'Add')->setHtmlAttribute('class', 'btn btn-primary float-right');
+    public function createComponentWarehouseForm(): Form {
+        $form = $this->warehouseFormFactory->createComponentWarehouseForm();
 		$form->onSuccess[] = [$this, 'addWarehouse'];
-		return $form;
+        return $form;
     }
     public function createComponentWarehouseEditForm(): Form
     {
-		$form = new Form;
-        $form->addHidden('id');
-		$form->addText('name', 'Name:')->setRequired()->setHtmlAttribute('class', 'form-control');
-		$form->addText('location', 'Location:')->setRequired()->setHtmlAttribute('class', 'form-control');
-		$form->addText('email', 'Owner email:')->setRequired()->setHtmlAttribute('class', 'form-control');
-        $form->addSubmit('delete', 'Delete')->setHtmlAttribute('class', 'btn btn-primary float-right')->onClick[] = [$this, 'deleteWarehouse'];
-		$form->addSubmit('edit', 'Edit')->setHtmlAttribute('class', 'btn btn-primary')->onClick[] = [$this, 'editWarehouse'];
-		return $form;
+        $form = $this->warehouseFormFactory->createComponentWarehouseEditForm();
+        $form->getComponent('edit')->onClick[] = [$this, 'editWarehouse'];
+        $form->getComponent('delete')->onClick[] = [$this, 'deleteWarehouse'];
+        return $form;
     }
 
-	public function addWarehouse(Form $form, $data): void
-	{
-        $warehouse = new Warehouse();
-        $warehouse->setName($data['name']);
-        $warehouse->setLocation($data['location']);
-        $warehouse->setEmail($data['email']);
-        
-        $this->entityManager->persist($warehouse);
-        $this->entityManager->flush();
-
-		$this->flashMessage('Storage added.');
-		$this->redirect('this');
+	public function addWarehouse(Form $form, $data): void {
+        $this->warehouseService->addWarehouse($data);
+		$this->flashMessage('Storage added.', type:'info');
+		//$this->redirect('this');
 	}
 
-    public function getWarehouse(string $specify): array
-    {
-        $queryBuilder = $this->entityManager->createQueryBuilder();
-        $queryBuilder->select('w')->from(Warehouse::class, 'w');        
-        $warehouses = $queryBuilder->getQuery()->getResult();
-
-        return $warehouses;
-    }
-
-    public function editWarehouse(Form $form, $data): void
-    {
-        $queryBuilder = $this->entityManager->createQueryBuilder();
-        $queryBuilder->update(Warehouse::class, 'w')->set('w.name', ':name')
-                                                    ->set('w.location', ':location')
-                                                    ->set('w.email', ':email')
-                                                    ->where('w.id = :id')
-                                                    ->setParameter('id', $data['id'])
-                                                    ->setParameter('name', $data['name'])
-                                                    ->setParameter('location', $data['location'])
-                                                    ->setParameter('email', $data['email']);
-
-        $queryBuilder->getQuery()->execute();
+    public function editWarehouse(Form $form, $data): void {
+        $this->warehouseService->editWarehouse($data);
+        $this->flashMessage("Warehouse name edited to {$data['name']}", type: 'info');
     }
 
     public function deleteWarehouse(Form $form, $data): void {
-
-        $queryBuilder = $this->entityManager->createQueryBuilder();
-        $queryBuilder->delete(Warehouse::class, 'w')
-            ->where('w.id = :id')
-            ->setParameter('id', $data['id']);
-
-        $queryBuilder->getQuery()->execute();
+        $this->warehouseService->deleteWarehouse($data);
+        $this->flashMessage("Warehouse {$data['name']} was deleted", type: 'info');
     }
 
 }

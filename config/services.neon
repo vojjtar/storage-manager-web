@@ -9,4 +9,6 @@ search:
 services:
 	- App\Router\RouterFactory::createRouter
 	- App\Model\Entity\Warehouse
-
+	- App\Model\Service\WarehouseService
+	- App\Model\Service\StorageService
+	- App\Form\WarehouseFormFactory

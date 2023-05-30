@@ -6,163 +6,76 @@ namespace App\Presenters;
 
 use Nette;
 use Nette\Application\UI\Presenter;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Model\Entity\Storage;
-use App\Model\Entity\Warehouse;
 use Nette\Application\UI\Form;
-use Nette\Utils\ArrayHash;
+use App\Model\Service\StorageService;
+use App\Form\StorageFormFactory;
 
 
 final class StoragePresenter extends Presenter
 {
-    private EntityManagerInterface $entityManager;
+    private StorageService $storageService;
+    private StorageFormFactory $storageFormFactory;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(
+        StorageService $storageService,
+        StorageFormFactory $storageFormFactory
+    )
     {
-        $this->entityManager = $entityManager;
+        $this->storageService = $storageService;
+        $this->storageFormFactory = $storageFormFactory;
     }
 
     public function renderDefault($id)
     {
-        $queryBuilder = $this->entityManager->createQueryBuilder();
-        $queryBuilder->select('s')->from(Storage::class, 's')->where('s.warehouse_id = :id')->setParameter('id', $id);        
-        $storage = $queryBuilder->getQuery()->getResult();
-        $queryBuilder->resetDQLParts();
-        $queryBuilder->select('w')->from(Warehouse::class, 'w')->where('w.id = :id')->setParameter('id', $id);
-        $warehouse = $queryBuilder->getQuery()->getResult();
-        
-        $this->template->setParameters([
-            'storage' => $storage,
-            'warehouse' => $warehouse[0]
-        ]);
+        $this->template->setParameters($this->storageService->getStorage($id));
     }
 
     public function createComponentStorageForm(): Form
     {
-		$form = new Form;
-        
-        $form->addHidden('id', $this->getParameter('id'));
-		$form->addText('name', 'Name:')->setRequired()->setHtmlAttribute('class', 'form-control');
-		$form->addText('description', 'Description:')->setRequired()->setHtmlAttribute('class', 'form-control');
-		$form->addText('code', 'Code:')->setRequired()->setHtmlAttribute('class', 'form-control');
-		$form->addText('price', 'Price ($USD):')->setRequired()->setHtmlAttribute('class', 'form-control');
-		$form->addSubmit('send', 'Add')->setHtmlAttribute('class', 'btn btn-primary float-right');
-		$form->onSuccess[] = [$this, 'addStorage'];
-		return $form;
+        $form = $this->storageFormFactory->createComponentStorageForm($this->getParameter('id'));
+        $form->onSuccess[] = [$this, 'addStorage'];
+        return $form;
     }
 
     public function createComponentEditStorageForm(): Form
     {
-		$form = new Form;
-        
-        $form->addHidden('id', $this->getParameter('id'));
-        $form->addHidden('warehouse_id');
-        // $form->addText('id2', 'id:')->setDefaultValue($this->getParameter('id'));
-		$form->addText('name', 'Name:')->setRequired()->setHtmlAttribute('class', 'form-control');
-		$form->addText('description', 'Description:')->setRequired()->setHtmlAttribute('class', 'form-control');
-		$form->addText('code', 'Code:')->setRequired()->setHtmlAttribute('class', 'form-control');
-		$form->addText('price', 'Price ($USD):')->setRequired()->setHtmlAttribute('class', 'form-control');
-		$form->addSubmit('send', 'Edit')->setHtmlAttribute('class', 'btn btn-primary float-right');
-		$form->onSuccess[] = [$this, 'editStorage'];
+        $form = $this->storageFormFactory->createComponentEditStorageForm($this->getParameter('id'));
+        $form->onSuccess[] = [$this, 'editStorage'];
 		return $form;
     }
 
     public function createComponentMoveStorageForm(): Form
     {
-        $queryBuilder = $this->entityManager->createQueryBuilder();
-        $queryBuilder->select('w')->from(Warehouse::class, 'w');        
-        $warehouses = $queryBuilder->getQuery()->getResult();
+        $form = $this->storageFormFactory->createComponentMoveStorageForm(
+            $this->storageService->getStorageSpecific()
+        );
 
-        $form = new Form;
-
-        foreach ($warehouses as $warehouse) {
-            $form->addButton(strval($warehouse->getId()), $warehouse->getName())->setHtmlAttribute('class', 'btn btn-primary')
-                                                                                ->getControlPrototype()->type('submit');
-        }
-
-        #$form->addHidden('warehouse_id', $this->getParameter('id'));
-        $form->addHidden('id');
-
-        //$form->addSelect('id', 'Choose storage:', $warehouses);
-
-		//$form->addSubmit('send', 'Move')->setHtmlAttribute('class', 'btn btn-primary float-right');
-
-        //$form->addCheckboxList
-		$form->onSuccess[] = [$this, 'moveStorage'];
-
+        $form->onSuccess[] = [$this, 'moveStorage'];
         return $form;
     }
 
     public function addStorage(Form $form, $data): void
     {
-        $storage_item = new Storage();
-        $storage_item->setName($data['name']);
-        $storage_item->setDescription($data['description']);
-        $storage_item->setCode(intval($data['code']));
-        $storage_item->setPrice(floatval($data['price']));
-        $storage_item->setWarehouseId(intval($data['id']));
-        
-        $this->entityManager->persist($storage_item);
-        $this->entityManager->flush();
-
+        $this->storageService->addStorage($data);
 		$this->flashMessage('Storage added.');
-		$this->redirect('this');
-    }
-
-    public function handleDeleteStorage($itemId): void
-    {
-        $queryBuilder = $this->entityManager->createQueryBuilder();
-        $queryBuilder->delete(Storage::class, 's')
-            ->where('s.id = :id')
-            ->setParameter('id', $itemId);
-
-        $queryBuilder->getQuery()->execute();
-
-        $this->redirect('this');
     }
 
     public function editStorage(Form $form, $data): void
     {
-        $queryBuilder = $this->entityManager->createQueryBuilder();
-        $queryBuilder->update(Storage::class, 's')->set('s.name', ':name')
-                                                    ->set('s.description', ':description')
-                                                    ->set('s.code', ':code')
-                                                    ->set('s.price', ':price')
-                                                    ->where('s.id = :id')
-                                                    ->setParameter('name', $data['name'])
-                                                    ->setParameter('description', $data['description'])
-                                                    ->setParameter('code', $data['code'])
-                                                    ->setParameter('price', $data['price'])
-                                                    ->setParameter('id', $data['id']);
-
-        $queryBuilder->getQuery()->execute();
-
-        $this->redirect('this');
+        $this->storageService->editStorage($data);
+        $this->flashMessage('Storage edited');
     }
 
     public function moveStorage(Form $form, $data): void
     {
-        $item_id = $data['id'];
-
-        foreach ($data as $key => $value) {
-            if ($value === null) {
-                $data->offsetUnset($key);
-            }
-        }
-
-        $data = array_keys((array) $data);
-
-        $warehouse_to = $data[0];
-
-        $queryBuilder = $this->entityManager->createQueryBuilder();
-        $queryBuilder->update(Storage::class, 's')->set('s.warehouse_id', ':warehouse_id')->where('s.id = :item_id')
-                                                  ->setParameter('warehouse_id', $warehouse_to)
-                                                  ->setParameter('item_id', $item_id);
-        
-        $queryBuilder->getQuery()->execute();
-
+        $this->storageService->moveStorage($data);
         $this->flashMessage('Storage moved.');
-		$this->redirect('this');
-
     }
+
+    public function handleDeleteStorage($itemId): void
+    {
+        $this->storageService->deleteStorage($itemId);
+		$this->flashMessage('Storage deleted.');
+    }
+
 }

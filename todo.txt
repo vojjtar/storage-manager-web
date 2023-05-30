@@ -1,0 +1,1 @@
+- when deleting a warehouse delete also the item it holds
