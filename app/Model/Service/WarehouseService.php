@@ -26,7 +26,7 @@ class WarehouseService
     }
 
     public function addWarehouse($data): void {
-        $warehouse = new Warehouse();
+        $warehouse = new Warehouse();  # TODO also add date of creation
         $warehouse->setName($data['name']);
         $warehouse->setLocation($data['location']);
         $warehouse->setEmail($data['email']);

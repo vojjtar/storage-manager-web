@@ -14,5 +14,4 @@ class WarehouseManager
         $this->entityManager = $entityManager;
     }
 
-    
 }

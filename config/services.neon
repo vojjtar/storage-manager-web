@@ -11,4 +11,6 @@ services:
 	- App\Model\Entity\Warehouse
 	- App\Model\Service\WarehouseService
 	- App\Model\Service\StorageService
-	- App\Form\WarehouseFormFactory
+	- App\Component\Form\Warehouse\WarehouseFormFactory
+	- App\Model\Manager\WarehouseManager
+	- App\Component\Form\Warehouse\WarehouseForm
