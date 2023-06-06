@@ -14,12 +14,10 @@ class WarehouseForm extends Form
 {
 	public function __construct(
 		private Warehouse|null   $warehouse,
-        private WarehouseManager $warehouseManager,
         private WarehouseService $warehouseService,
 	) {
-        parent::__construct();
+        //parent::__construct();
         $this->warehouse = $warehouse;
-        $this->warehouseManager = $warehouseManager;
         $this->warehouseService = $warehouseService;
 	}
 

@@ -3,25 +3,9 @@
 namespace App\Component\Form\Warehouse;
 
 use App\Model\Entity\Warehouse;
-use App\Model\Manager\WarehouseManager;
-use App\Model\Service\WarehouseService;
+use App\Component\Form\Warehouse\WarehouseForm;
 
-
-class WarehouseFormFactory implements WarehouseFormFactoryInterface
+interface WarehouseFormFactory
 {
-    private WarehouseManager $warehouseManager;
-    private WarehouseService $warehouseService;
-
-    public function __construct(
-        WarehouseManager $warehouseManager,
-        WarehouseService $warehouseService
-    ) {
-        $this->warehouseManager = $warehouseManager;
-        $this->warehouseService = $warehouseService;
-    }
-
-    public function create(?Warehouse $warehouse = null): WarehouseForm
-    {
-        return new WarehouseForm($warehouse, $this->warehouseManager, $this->warehouseService);
-    }
+	public function create(?Warehouse $warehouse = null): WarehouseForm;
 }

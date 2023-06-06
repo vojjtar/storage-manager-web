@@ -28,12 +28,11 @@ class WarehousePresenter extends Presenter
     public function renderDefault()
     {
         $warehouses = $this->warehouseService->getWarehouse('all');
-
         $this->template->warehouses = $warehouses;
     }
 
-    public function createComponentWarehouseForm(): WarehouseForm {
-        return $this->warehouseFormFactory->create();
+    public function createComponentWarehouseForm() {
+        return ($this->warehouseFormFactory->create())->createComponentWarehouseForm();
     }
 
 }
