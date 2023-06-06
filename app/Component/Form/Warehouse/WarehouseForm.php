@@ -10,7 +10,7 @@ use App\Model\Manager\WarehouseManager;
 use Nette\Application\UI\Control;
 
 
-class WarehouseForm extends Control
+class WarehouseForm extends Form
 {
 	public function __construct(
 		private Warehouse|null   $warehouse,
@@ -22,10 +22,6 @@ class WarehouseForm extends Control
         $this->warehouseManager = $warehouseManager;
         $this->warehouseService = $warehouseService;
 	}
-
-    public function render(): void {
-        $this->warehouse = $warehouse;
-    }
 
 
     public function createComponentWarehouseForm(): Form {
