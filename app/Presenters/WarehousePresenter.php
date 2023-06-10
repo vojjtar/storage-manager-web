@@ -17,6 +17,7 @@ class WarehousePresenter extends Presenter
 {
     private WarehouseFormFactory $warehouseFormFactory;
     private WarehouseService $warehouseService;
+    public int|null $id = null;
 
     public function __construct(
         WarehouseFormFactory $warehouseFormFactory,
@@ -32,21 +33,22 @@ class WarehousePresenter extends Presenter
         $this->template->warehouses = $warehouses;
     }
 
-    public function createComponentWarehouseForm(): Multiplier {
-        return new Multiplier(function ($warehouseId) { // this needs to be changed and be updated dynamically
+    public function createComponentWarehouseForm(): WarehouseForm {
+
             $warehouse = null;
 
-            if ($warehouseId !== null) {
-                $warehouse = $this->warehouseService->getSpecificWarehouse(intval($warehouseId));
+            if ($this->id !== null) {
+                $warehouse = $this->warehouseService->getSpecificWarehouse($this->id);
             }
     
             return $this->warehouseFormFactory->create($warehouse);
-        });
+
     }
 
-    public function handleShow() {
+    public function handleShow($id) {
         if ($this->isAjax()) {
-            
+            $this->id = intval($id);
+            $this->redrawControl('warehouseForm');
         }
     }
 
