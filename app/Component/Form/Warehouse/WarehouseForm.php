@@ -35,6 +35,7 @@ class WarehouseForm extends Control
 
         if ($this->warehouse !== null) {
             $form->addSubmit('send', 'Edit')->setHtmlAttribute('class', 'btn btn-primary float-right');
+            $form->addSubmit('delete', 'Delete')->setHtmlAttribute('class', 'btn btn-primary float-right')->onClick[] = [$this, 'warehouseFormDelete'];
             $form->setDefaults(
                 [
                     'id' => $this->warehouse->getId(),
@@ -62,4 +63,8 @@ class WarehouseForm extends Control
         }
         $this->presenter->redirect('default');
 	}
+
+    public function warehouseFormDelete(Form $form, $data) {
+        $this->warehouseService->deleteWarehouse($data);
+    }
 }

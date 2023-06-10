@@ -28,12 +28,12 @@ class WarehousePresenter extends Presenter
 
     public function renderDefault()
     {
-        $warehouses = $this->warehouseService->getWarehouse('all');
+        $warehouses = $this->warehouseService->getAllWarehouses();
         $this->template->warehouses = $warehouses;
     }
 
     public function createComponentWarehouseForm(): Multiplier {
-        return new Multiplier(function ($warehouseId) {
+        return new Multiplier(function ($warehouseId) { // this needs to be changed and be updated dynamically
             $warehouse = null;
 
             if ($warehouseId !== null) {
@@ -42,6 +42,12 @@ class WarehousePresenter extends Presenter
     
             return $this->warehouseFormFactory->create($warehouse);
         });
+    }
+
+    public function handleShow() {
+        if ($this->isAjax()) {
+            
+        }
     }
 
 }

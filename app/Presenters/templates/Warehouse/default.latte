@@ -22,7 +22,7 @@
                             <p class="card-text m-0">Owner: {$warehouse->getEmail()}</p>
                             <p hidden>{$warehouse->getId()}</p>
                             <div class="ml-auto mt-4">
-                                <a class="ml-auto" n:href="Storage:default"><button class="btn btn-info"><i class="fa-solid fa-eye"></i></button></a>
+                                <a class="ml-auto ajax" n:href="show!"><button class="btn btn-info"><i class="fa-solid fa-eye"></i></button></a>
                                 <a class="ml-auto" data-toggle="modal" data-target="#storage-edit-{$warehouse->getId()}"><button class="btn btn-info">Edit</button></a>
                                 <a class="ml-auto" n:href="Storage:default, $warehouse->getId()"><button class="btn btn-info">View</button></a>
                             </div>

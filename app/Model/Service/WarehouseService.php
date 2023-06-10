@@ -17,7 +17,7 @@ class WarehouseService
         $this->entityManager = $entityManager;
     }
 
-    public function getWarehouse(string $specify): array {
+    public function getAllWarehouses(): array {
         $queryBuilder = $this->entityManager->createQueryBuilder();
         $queryBuilder->select('w')->from(Warehouse::class, 'w');        
         $warehouses = $queryBuilder->getQuery()->getResult();
