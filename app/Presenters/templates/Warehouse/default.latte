@@ -23,7 +23,7 @@
                             <p hidden>{$warehouse->getId()}</p>
                             <div class="ml-auto mt-4">
                                 <a class="ml-auto" n:href="Storage:default"><button class="btn btn-info"><i class="fa-solid fa-eye"></i></button></a>
-                                <a class="ml-auto" n:href="setWarehouse! id => $warehouse->getId()" data-toggle="modal" data-target="#storage-edit-{$warehouse->getId()}"><button class="btn btn-info">Edit</button></a>
+                                <a class="ml-auto" data-toggle="modal" data-target="#storage-edit-{$warehouse->getId()}"><button class="btn btn-info">Edit</button></a>
                                 <a class="ml-auto" n:href="Storage:default, $warehouse->getId()"><button class="btn btn-info">View</button></a>
                             </div>
                         </div>
@@ -34,7 +34,7 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title">Edit storage</h4>
+                                <h4 class="modal-title">Edit storage - {$warehouse->getName()}</h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">

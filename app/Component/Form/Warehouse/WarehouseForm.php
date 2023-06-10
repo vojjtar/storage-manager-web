@@ -30,18 +30,22 @@ class WarehouseForm extends Control
 		$form->addText('name', 'Name:')->setRequired()->setHtmlAttribute('class', 'form-control');
 		$form->addText('location', 'Location:')->setRequired()->setHtmlAttribute('class', 'form-control');
 		$form->addText('email', 'Owner email:')->setRequired()->setHtmlAttribute('class', 'form-control');
-        $form->addSubmit('send', 'Add')->setHtmlAttribute('class', 'btn btn-primary float-right');
         $form->addHidden('id', '');
 
 
         if ($this->warehouse !== null) {
+            $form->addSubmit('send', 'Edit')->setHtmlAttribute('class', 'btn btn-primary float-right');
             $form->setDefaults(
                 [
+                    'id' => $this->warehouse->getId(),
                     'name' => $this->warehouse->getName(),
                     'location' => $this->warehouse->getLocation(),
                     'email' => $this->warehouse->getEmail(),
                 ]
             );
+        }
+        else {
+            $form->addSubmit('send', 'Add')->setHtmlAttribute('class', 'btn btn-primary float-right');
         }
 
         $form->onSuccess[] = [$this, 'warehouseFormOnSuccess'];
@@ -50,8 +54,12 @@ class WarehouseForm extends Control
     }
 
 	public function warehouseFormOnSuccess(Form $form, $data): void {
-        $this->warehouseService->addWarehouse($data);
-
-		//$this->redirect('this');
+        if ($data->id !== '') {
+            $this->warehouseService->editWarehouse($data);
+        }
+        else {
+            $this->warehouseService->addWarehouse($data);
+        }
+        $this->presenter->redirect('default');
 	}
 }

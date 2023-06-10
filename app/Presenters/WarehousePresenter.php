@@ -17,7 +17,6 @@ class WarehousePresenter extends Presenter
 {
     private WarehouseFormFactory $warehouseFormFactory;
     private WarehouseService $warehouseService;
-    public int|null $id = null;
 
     public function __construct(
         WarehouseFormFactory $warehouseFormFactory,
@@ -33,7 +32,7 @@ class WarehousePresenter extends Presenter
         $this->template->warehouses = $warehouses;
     }
 
-    public function createComponentWarehouseForm() {
+    public function createComponentWarehouseForm(): Multiplier {
         return new Multiplier(function ($warehouseId) {
             $warehouse = null;
 
