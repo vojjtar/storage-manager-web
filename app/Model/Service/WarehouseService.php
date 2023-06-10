@@ -25,6 +25,14 @@ class WarehouseService
         return $warehouses;
     }
 
+    public function getSpecificWarehouse(int $id) {
+        $queryBuilder = $this->entityManager->createQueryBuilder();
+        $queryBuilder->select('w')->from(Warehouse::class, 'w')->where('w.id = :id')->setParameter('id', $id);
+        $warehouse = $queryBuilder->getQuery()->getOneOrNullResult();
+        
+        return $warehouse;
+    }
+
     public function addWarehouse($data): void {
         $warehouse = new Warehouse();  # TODO also add date of creation
         $warehouse->setName($data['name']);

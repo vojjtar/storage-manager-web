@@ -23,14 +23,14 @@
                             <p hidden>{$warehouse->getId()}</p>
                             <div class="ml-auto mt-4">
                                 <a class="ml-auto" n:href="Storage:default"><button class="btn btn-info"><i class="fa-solid fa-eye"></i></button></a>
-                                <a class="ml-auto" data-toggle="modal" data-target="#storage-edit" data-id="{$warehouse->getId()}" data-name="{$warehouse->getName()}" data-location="{$warehouse->getLocation()}" data-email="{$warehouse->getEmail()}"><button class="btn btn-info">Edit</button></a>
+                                <a class="ml-auto" n:href="setWarehouse! id => $warehouse->getId()" data-toggle="modal" data-target="#storage-edit-{$warehouse->getId()}"><button class="btn btn-info">Edit</button></a>
                                 <a class="ml-auto" n:href="Storage:default, $warehouse->getId()"><button class="btn btn-info">View</button></a>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div id="storage-edit" class="modal fade" role="dialog">
+                <div id="storage-edit-{$warehouse->getId()}" class="modal fade" role="dialog">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -38,7 +38,8 @@
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">
-                                {control warehouseForm}
+                                {var $id = $warehouse->getId()}
+                                {control "warehouseForm-$id"}
                             </div>
                         </div>
                     </div>
@@ -63,7 +64,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
-                    {control warehouseForm}
+                    {control "warehouseForm-null"}
                 </div>
             </div>
         </div>

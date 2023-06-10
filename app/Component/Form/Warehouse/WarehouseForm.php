@@ -33,16 +33,16 @@ class WarehouseForm extends Control
         $form->addSubmit('send', 'Add')->setHtmlAttribute('class', 'btn btn-primary float-right');
         $form->addHidden('id', '');
 
-        // if ($this->warehouse !== null) {
-        //     dump($this->warehouse);
-        //     $form->setDefaults(
-        //         [
-        //             'name' => $this->warehouse->getName(),
-        //             'location' => $this->warehouse->getLocation(),
-        //             'email' => $this->warehouse->getEmail(),
-        //         ]
-        //     );
-        // }
+
+        if ($this->warehouse !== null) {
+            $form->setDefaults(
+                [
+                    'name' => $this->warehouse->getName(),
+                    'location' => $this->warehouse->getLocation(),
+                    'email' => $this->warehouse->getEmail(),
+                ]
+            );
+        }
 
         $form->onSuccess[] = [$this, 'warehouseFormOnSuccess'];
 
