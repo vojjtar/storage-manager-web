@@ -31,25 +31,29 @@ class WarehousePresenter extends Presenter
     {
         $warehouses = $this->warehouseService->getAllWarehouses();
         $this->template->warehouses = $warehouses;
+        $this->template->id = $this->id;
     }
 
     public function createComponentWarehouseForm(): WarehouseForm {
+        $warehouse = null;
 
-            $warehouse = null;
+        if ($this->id !== null) {
+            $warehouse = $this->warehouseService->getSpecificWarehouse($this->id);
+        }
 
-            if ($this->id !== null) {
-                $warehouse = $this->warehouseService->getSpecificWarehouse($this->id);
-            }
-    
-            return $this->warehouseFormFactory->create($warehouse);
-
+        return $this->warehouseFormFactory->create($warehouse);
     }
 
     public function handleShow($id) {
         if ($this->isAjax()) {
+            $this->template->id = intval($id);
             $this->id = intval($id);
-            $this->redrawControl('warehouseForm');
+            $this->redrawControl('warehouseFormSnippet');
         }
+    }
+
+    public function handleWarehouseDelete($id) {
+        $this->warehouseService->deleteWarehouse($id);
     }
 
 }

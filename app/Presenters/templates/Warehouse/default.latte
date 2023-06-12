@@ -29,56 +29,44 @@
                             <p hidden>{$warehouse->getId()}</p>
                             <div class="ml-auto mt-4">
                                 <a class="ml-auto ajax" n:href="show!"><button class="btn btn-info"><i class="fa-solid fa-eye"></i></button></a>
-                                {* <a class="ml-auto ajax" n:href="show!" data-toggle="modal" data-target="#storage-edit"><button class="btn btn-info">Edit</button></a> *}
-                                <a data-toggle="modal" data-target="#storage-edit" n:href="show! $warehouse->getId()" class="btn btn-info ajax">Edit</a>
+                                <a class="btn btn-danger" n:href="warehouseDelete! $warehouse->getId()">Delete</a>
+                                <a class="btn btn-info ajax" n:href="show! $warehouse->getId()">Edit</a>
                                 <a class="ml-auto" n:href="Storage:default, $warehouse->getId()"><button class="btn btn-info">View</button></a>
                             </div>
                         </div>
                     </div>
                 </div>
-
             {/foreach}
 
             <div class="col-md-4 mt-4 d-flex">
                 <div class="card shadow enlargeOnHover flex-grow-1" style="height: 12rem;">
-                    <button type="button" class="btn btn-success flex-grow-1" data-toggle="modal" data-target="#storage-add">
-                        <i class="fa-solid fa-plus"></i>
-                    </button>
+                    <a type="button" n:href="show!" class="ajax btn btn-success flex-grow-1 ajax"><i class="fa-solid fa-plus"></i></a>
                 </div>
             </div>
         </div>
     </div>
     
-    {* <div id="storage-add" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Add warehouse</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body">
-                    {control "warehouseForm-null"}
+    {snippet warehouseFormSnippet}
+        <div id="storage-edit" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit storage</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        {control warehouseForm}
+                    </div>
                 </div>
             </div>
         </div>
-    </div> *}
+        <script>
+            {if isset($id)}
+                $('#storage-edit').modal('show');
+            {/if}
+        </script>
+    {/snippet}
 
-    <div id="storage-edit" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Edit storage</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body">
-                {snippet warehouseForm}
-                    {control warehouseForm}
-                {/snippet}
-                </div>
-            </div>
-        </div>
-    </div>
-    
 </body>
     <script src="{$basePath}/js/modalControl.js"></script>
 </html>

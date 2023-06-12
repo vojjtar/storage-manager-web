@@ -8,7 +8,7 @@ use Nette\Application\UI\Form;
 use App\Model\Entity\Warehouse;
 use App\Model\Manager\WarehouseManager;
 use Nette\Application\UI\Control;
-
+use Nette\Forms\Controls\SubmitButton;
 
 class WarehouseForm extends Control
 {
@@ -34,8 +34,7 @@ class WarehouseForm extends Control
 
 
         if ($this->warehouse !== null) {
-            $form->addSubmit('send', 'Edit')->setHtmlAttribute('class', 'btn btn-primary float-right');
-            $form->addSubmit('delete', 'Delete')->setHtmlAttribute('class', 'btn btn-primary float-right')->onClick[] = [$this, 'warehouseFormDelete'];
+            $form->addSubmit('edit', 'Edit')->setHtmlAttribute('class', 'btn btn-primary float-right');
             $form->setDefaults(
                 [
                     'id' => $this->warehouse->getId(),
@@ -46,7 +45,7 @@ class WarehouseForm extends Control
             );
         }
         else {
-            $form->addSubmit('send', 'Add')->setHtmlAttribute('class', 'btn btn-primary float-right');
+            $form->addSubmit('add', 'Add')->setHtmlAttribute('class', 'btn btn-primary float-right');
         }
 
         $form->onSuccess[] = [$this, 'warehouseFormOnSuccess'];
@@ -63,8 +62,4 @@ class WarehouseForm extends Control
         }
         $this->presenter->redirect('default');
 	}
-
-    public function warehouseFormDelete(Form $form, $data) {
-        $this->warehouseService->deleteWarehouse($data);
-    }
 }

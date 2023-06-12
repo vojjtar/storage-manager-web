@@ -1,3 +1,4 @@
 - when deleting a warehouse delete also the item it holds DONE
 - i should have in my form also a template to render with control inside it thats why i should have render in my form i render that with the data
 - can generate forms just when button is clicked not on page load
+- add snippets while deleting storage items so not the whole page has to reload

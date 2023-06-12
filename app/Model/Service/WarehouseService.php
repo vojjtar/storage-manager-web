@@ -58,17 +58,17 @@ class WarehouseService
         $queryBuilder->getQuery()->execute();
     }
 
-    public function deleteWarehouse($data): void {
+    public function deleteWarehouse($id): void {
         $queryBuilder = $this->entityManager->createQueryBuilder();
         $queryBuilder->delete(Warehouse::class, 'w')
             ->where('w.id = :id')
-            ->setParameter('id', $data['id']);
+            ->setParameter('id', $id);
 
         $queryBuilder->getQuery()->execute();
         
         $queryBuilder->delete(Storage::class, 's')
             ->where('s.warehouse_id = :id')
-            ->setParameter('id', $data['id']);
+            ->setParameter('id', $id);
 
         $queryBuilder->getQuery()->execute();
     }
