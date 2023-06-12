@@ -54,6 +54,7 @@ class WarehousePresenter extends Presenter
 
     public function handleWarehouseDelete($id) {
         $this->warehouseService->deleteWarehouse($id);
+        $this->flashMessage('Warehouse deleted.');
     }
 
 }

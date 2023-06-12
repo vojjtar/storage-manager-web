@@ -56,9 +56,11 @@ class WarehouseForm extends Control
 	public function warehouseFormOnSuccess(Form $form, $data): void {
         if ($data->id !== '') {
             $this->warehouseService->editWarehouse($data);
+            $this->presenter->flashMessage('Warehouse edited');
         }
         else {
             $this->warehouseService->addWarehouse($data);
+            $this->presenter->flashMessage('Warehouse added');
         }
         $this->presenter->redirect('default');
 	}
