@@ -18,11 +18,11 @@ class StorageService
         $this->entityManager = $entityManager;
     }
 
-    public function getStorageSpecific() {
+    public function getStorageSpecific($id_item) {
         $queryBuilder = $this->entityManager->createQueryBuilder();
-        $queryBuilder->select('w')->from(Warehouse::class, 'w');        
-        $warehouses = $queryBuilder->getQuery()->getResult();
-        return $warehouses;
+        $queryBuilder->select('s')->from(Storage::class, 's')->where('s.id = :id')->setParameter('id', $id_item);        
+        $storage = $queryBuilder->getQuery()->getOneOrNullResult();
+        return $storage;
     }
 
     public function getStorage($id) {
@@ -44,7 +44,7 @@ class StorageService
         $storage_item->setDescription($data['description']);
         $storage_item->setCode(intval($data['code']));
         $storage_item->setPrice(floatval($data['price']));
-        $storage_item->setWarehouseId(intval($data['id']));
+        $storage_item->setWarehouseId(intval($data['warehouse_id']));
         
         $this->entityManager->persist($storage_item);
         $this->entityManager->flush();

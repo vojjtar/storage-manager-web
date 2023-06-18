@@ -29,7 +29,7 @@
 </head>
 
 <body>
-	<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
+	<div n:foreach="$flashes as $flash" n:class="flash, $flash->type, alert, alert-success, mb-0" role="alert">{$flash->message}</div>
 
 	<nav class="navbar navbar-expand-lg navbar-light bg-dark">
 		<a class="navbar-brand text-white" n:href="Warehouse:default">[Storage Manager]</a>
@@ -41,7 +41,7 @@
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav ml-auto">
 				<button type="button" class="btn btn-secondary ml-2">Login</button>
-				<button type="button" class="btn btn-primary ml-2">Register</button>
+				<button type="button" class="btn btn-primary ml-2 mt-1">Register</button>
 			</ul>
 		</div>
 	</nav>
@@ -50,7 +50,13 @@
 	{include content}
 
 	{block scripts}
-	<script src="https://nette.github.io/resources/js/3/netteForms.min.js"></script>
+		<script src="https://nette.github.io/resources/js/3/netteForms.min.js"></script>
+
+		<script>
+			$(".flash").delay(4000).slideUp(200, function() {
+				$(this).alert('close');
+			});
+		</script>
 	{/block}
 </body>
 </html>

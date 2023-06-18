@@ -6,11 +6,9 @@ namespace App\Presenters;
 
 use App\Component\Form\Warehouse\WarehouseFormFactory;
 use Nette;
-use Nette\Application\UI\Multiplier;
 use Nette\Application\UI\Presenter;
 use App\Model\Service\WarehouseService;
 use App\Component\Form\Warehouse\WarehouseForm;
-use App\Model\Entity\Warehouse;
 
 
 class WarehousePresenter extends Presenter
@@ -54,6 +52,6 @@ class WarehousePresenter extends Presenter
 
     public function handleWarehouseDelete($id) {
         $this->warehouseService->deleteWarehouse($id);
+        $this->flashMessage('Warehouse deleted');
     }
-
 }
