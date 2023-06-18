@@ -18,10 +18,13 @@
     </script>
 
     <div class="mx-5 mt-2">
-        <div class="bg-secondary p-2 rounded-top">
-            <a class="ml-auto ajax" n:href="show!"><button class="btn btn-sm btn-success">Add item</button></a>
-            <h1>{$warehouse->getName()}</h1>
+        <div class="bg-dark p-2 rounded-top d-flex justify-content-start text-light">
+            <a class="ajax" n:href="show!">
+                <button class="btn btn-sm btn-success">Add item</button>
+            </a>
+            <h5 class="ml-1">to -> {$warehouse->getName()}</h5>
         </div>
+
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -38,7 +41,7 @@
             </thead>
             <tbody>
                 {foreach $storage as $item}
-                    <tr>
+                    <tr class="enlargeOnHover slide-down">
                         <th scope="row">{$count++}</th>
                         <td>{$item->getName()}</td>
                         <td>{$item->getDescription()}</td>

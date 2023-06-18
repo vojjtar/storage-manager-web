@@ -18,17 +18,20 @@
     </script>
 
     <div class="container">
+        <div class="mt-2">
+            <a type="button" n:href="show!" class="ajax btn btn-success flex-grow-1 ajax"><i class="fa-solid fa-plus"></i> Add warehouse</a>
+        </div>
         <div class="row">
             {foreach $warehouses as $warehouse}
-                <div class="col-md-4 mt-4">
-                    <div class="card shadow enlargeOnHover" style="height: 12rem;">
+                <div class="col-md-4 mt-4 pop-in shadow">
+                    <div class="card enlargeOnHover" style="height: 12rem;">
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">{$warehouse->getName()}</h5>
                             <p class="card-text m-0">Location: {$warehouse->getLocation()}</p>
                             <p class="card-text m-0">Owner: {$warehouse->getEmail()}</p>
                             <p hidden>{$warehouse->getId()}</p>
                             <div class="ml-auto mt-4">
-                                <a class="ml-auto ajax" n:href="show!"><button class="btn btn-info"><i class="fa-solid fa-eye"></i></button></a>
+                                {* <a class="ml-auto ajax" n:href="show!"><button class="btn btn-info"><i class="fa-solid fa-eye"></i></button></a> *}
                                 <a class="btn btn-danger" n:href="warehouseDelete! $warehouse->getId()">Delete</a>
                                 <a class="btn btn-info ajax" n:href="show! $warehouse->getId()">Edit</a>
                                 <a class="ml-auto" n:href="Storage:default, $warehouse->getId()"><button class="btn btn-info">View</button></a>
@@ -37,12 +40,6 @@
                     </div>
                 </div>
             {/foreach}
-
-            <div class="col-md-4 mt-4 d-flex">
-                <div class="card shadow enlargeOnHover flex-grow-1" style="height: 12rem;">
-                    <a type="button" n:href="show!" class="ajax btn btn-success flex-grow-1 ajax"><i class="fa-solid fa-plus"></i></a>
-                </div>
-            </div>
         </div>
     </div>
     
