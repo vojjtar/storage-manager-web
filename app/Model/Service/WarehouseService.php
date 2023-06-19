@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Model\Service;
 
+use DateTime;
 use App\Model\Entity\Storage;
 use App\Model\Entity\Warehouse;
 use Doctrine\ORM\EntityManagerInterface;
@@ -34,10 +35,11 @@ class WarehouseService
     }
 
     public function addWarehouse($data): void {
-        $warehouse = new Warehouse();  # TODO also add date of creation
+        $warehouse = new Warehouse();
         $warehouse->setName($data['name']);
         $warehouse->setLocation($data['location']);
         $warehouse->setEmail($data['email']);
+        $warehouse->setCreated(new DateTime());
         
         $this->entityManager->persist($warehouse);
         $this->entityManager->flush();

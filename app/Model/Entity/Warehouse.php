@@ -7,6 +7,7 @@ namespace App\Model\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+
 #[ORM\Table(name: 'warehouse')]
 #[ORM\Entity]
 class Warehouse
@@ -22,6 +23,9 @@ class Warehouse
 
     #[ORM\Column(type: 'string')]
     private $email;
+
+    #[ORM\Column(type: 'datetime')]
+    private $created;
 
 
     public function getId(): int
@@ -57,6 +61,16 @@ class Warehouse
     public function setEmail(string $email): void
     {
         $this->email = $email;
+    }
+
+    public function getCreated()
+    {
+        return $this->created; 
+    }
+
+    public function setCreated($created)
+    {
+        $this->created = $created;
     }
 
 }
