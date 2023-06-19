@@ -2,3 +2,6 @@
 - i should have in my form also a template to render with control inside it thats why i should have render in my form i render that with the data
 - can generate forms just when button is clicked not on page load
 - add snippets while deleting storage items so not the whole page has to reload
+
+
+- need to do epic one to many stuff with doctrine to do history and more cool stuff to get info about warehouses/items

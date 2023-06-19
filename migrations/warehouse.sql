@@ -1,6 +1,12 @@
 CREATE TABLE `warehouse` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(16) NOT NULL,
-  `location` varchar(16) NOT NULL,
-  `email` varchar(64) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(16) NOT NULL COLLATE 'latin1_swedish_ci',
+	`location` VARCHAR(16) NOT NULL COLLATE 'latin1_swedish_ci',
+	`email` VARCHAR(64) NOT NULL COLLATE 'latin1_swedish_ci',
+	`created` DATETIME NULL DEFAULT NULL,
+	PRIMARY KEY (`id`) USING BTREE
+)
+COLLATE='latin1_swedish_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=12
+;
