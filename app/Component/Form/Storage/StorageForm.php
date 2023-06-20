@@ -35,7 +35,7 @@ class StorageForm extends Control
     {
 		$form = new Form;
         $form->addHidden('id', '');
-        $form->addHidden('warehouse_id', '');
+        $form->addHidden('warehouse_id', 10);
 		$form->addText('name', 'Name:')->setRequired()->setHtmlAttribute('class', 'form-control');
 		$form->addText('description', 'Description:')->setRequired()->setHtmlAttribute('class', 'form-control');
 		$form->addText('code', 'Code:')->setRequired()->setHtmlAttribute('class', 'form-control');
@@ -63,7 +63,8 @@ class StorageForm extends Control
             $this->storageService->editStorage($data);
         }
         else {
-            $data['warehouse_id'] = intval($this->presenter->getParameter('id')); // getting warehouse_id parameter from the url, could also take it from the template
+            // $data->warehouse_id also possible
+            //$data->warehouse_id = intval($this->presenter->getParameterId('id')); // getting warehouse_id parameter from the url, could also take it from the template
             $this->storageService->addStorage($data);
         }
         //$this->presenter->redirect('default'); // cant redirect without passing warehouse ID
@@ -85,7 +86,6 @@ class StorageForm extends Control
                 'id' => $this->storage->getId(),
             ]);
         }
-
         $form->onSuccess[] = [$this, 'moveStorage'];
 
         return $form;

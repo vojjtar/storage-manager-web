@@ -47,10 +47,11 @@
                         <td>{$item->getDescription()}</td>
                         <td>{$item->getCode()}</td>
                         <td>{$item->getPrice()}</td>
-                        <td><button class="btn btn-sm btn-info">Detail <i class="fa-solid fa-info"></i></button></td>
+                        <td><a class="ml-auto ajax" n:href="showHistory!, $item->getId()"><button class="btn btn-sm btn-info">Info <i class="fa-solid fa-info"></i></button></a></td>
+                        {* <td><button class="btn btn-sm btn-info">Detail <i class="fa-solid fa-info"></i></button></td> *}
                         {* <td><button class="btn btn-sm btn-warning">Edit <i class="fa-solid fa-pencil"></i></button></td> *}
-                        <td><a class="ml-auto ajax" n:href="show!, ['id' => $item->getId(), 'action' => 'default']"><button class="btn btn-sm btn-warning">Edit <i class="fa-solid fa-pencil"></i></button></a></td>
-                        <td><a class="ml-auto ajax" n:href="show!, ['id' => $item->getId(), 'action' => 'move']"><button class="btn btn-sm btn-warning">Move <i class="fa-solid fa-arrow-right"></i></button></a></td>
+                        <td><a class="ml-auto ajax" n:href="show! $item->getId()"><button class="btn btn-sm btn-warning">Edit <i class="fa-solid fa-pencil"></i></button></a></td>
+                        <td><a class="ml-auto ajax" n:href="showMove! $item->getId()"><button class="btn btn-sm btn-warning">Move <i class="fa-solid fa-arrow-right"></i></button></a></td>
                         {* <td><button class="btn btn-sm btn-warning">Move <i class="fa-solid fa-arrow-right"></i></button></td> *}
                         <td><a class="ml-auto" n:href="deleteStorage!, $item->getId()"><button type="submit" name="deleteButton" value="{$item->getId()}" class="btn btn-sm btn-danger">Delete <i class="fa-solid fa-trash"></i></button></a></td>
                     </tr>
@@ -99,6 +100,30 @@
                 $('#storage-move').modal('show');
             {/if}
         </script>
+    {/snippet}
+
+    {snippet movementHistory}
+        {if isset($movements)}
+            <div id="storage-detail" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Move storage</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            {foreach $movements as $movement}
+                                <p>Timestamp: {$movement->getTimestamp()|date:'Y-m-d H:i:s'}</p>
+                            {/foreach}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                $('#storage-detail').modal('show');
+            </script>
+
+        {/if}
     {/snippet}
 
 </body>

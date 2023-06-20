@@ -36,6 +36,7 @@ final class StoragePresenter extends Presenter
     {
         $this->template->setParameters($this->storageService->getStorage($id));
         $this->template->id_item = $this->id_item;
+        $this->template->movementsData = [];
     }
 
     public function createComponentStorageForm(): StorageForm
@@ -66,20 +67,49 @@ final class StoragePresenter extends Presenter
 		$this->flashMessage('Storage deleted.');
     }
 
-    public function handleShow(array $params) {
+    // public function handleShow(array $params) {
+    //     if ($this->isAjax()) {
+    //         $this->template->id_item = intval($params['id']);
+    //         $this->id_item = intval($params['id']);
+
+    //         if ($params['action'] == 'default') {
+    //             $this->showMove = false;
+    //             $this->redrawControl('storageFormSnippet');
+    //         }
+    //         else if ($params['action'] == 'move') {
+    //             $this->showMove = true;
+    //             $this->redrawControl('storageFormMoveSnippet');
+    //         }
+
+    //     }
+    // }
+
+    public function handleShow($id_item) {
         if ($this->isAjax()) {
-            $this->template->id_item = intval($params['id']);
-            $this->id_item = intval($params['id']);
+            $this->template->id_item = intval($id_item);
+            $this->id_item = intval($id_item);
+            $this->showMove = false;
+            $this->redrawControl('storageFormSnippet');
+        }
+    }
 
-            if ($params['action'] == 'default') {
-                $this->showMove = false;
-                $this->redrawControl('storageFormSnippet');
-            }
-            else if ($params['action'] == 'move') {
-                $this->showMove = true;
-                $this->redrawControl('storageFormMoveSnippet');
-            }
+    public function handleShowMove($id_item) {
+        if ($this->isAjax()) {
+            $this->template->id_item = intval($id_item);
+            $this->id_item = intval($id_item);
+            $this->showMove = true;
+            $this->redrawControl('storageFormMoveSnippet');
+        }
+    }
 
+    public function handleShowHistory($id_item) {
+        $storage = $this->storageService->getStorageSpecific($id_item);
+        if ($this->isAjax()) {
+            if ($storage !== null) {
+                $movements = $storage->getMovements();
+                $this->template->movements = $movements;
+                $this->redrawControl('movementHistory');   
+            }
         }
     }
 }

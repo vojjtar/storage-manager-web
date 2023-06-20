@@ -46,10 +46,13 @@ class StorageService
         $storage_item->setDescription($data['description']);
         $storage_item->setCode(intval($data['code']));
         $storage_item->setPrice(floatval($data['price']));
-        $storage_item->setWarehouseId(intval($data['warehouse_id']));
-        
+        $storage_item->setWarehouseId(10);
+
+        dump($storage_item);
+
         $this->entityManager->persist($storage_item);
         $this->entityManager->flush();
+
     }
 
     public function editStorage($data): void {
