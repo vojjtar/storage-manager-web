@@ -28,6 +28,7 @@
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">{$warehouse->getName()}</h5>
                             <p class="card-text m-0">Location: {$warehouse->getLocation()}</p>
+                            <p class="card-text m-0">Items: {$warehouse->getNumberOfItems()}</p>
                             <p class="card-text m-0">Owner: {$warehouse->getEmail()}</p>
                             <p hidden>{$warehouse->getId()}</p>
                             <div class="ml-auto mt-4">

@@ -6,6 +6,8 @@ namespace App\Model\Entity;
 
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Table(name: 'storage')]
 #[ORM\Entity]
@@ -28,6 +30,19 @@ class Storage
 
     #[ORM\Column(type: 'integer')]
     private $warehouse_id;
+
+    #[ORM\ManyToOne(targetEntity: 'Warehouse', inversedBy: 'storages')]
+    #[ORM\JoinColumn(name: 'warehouse_id', referencedColumnName: 'id')]
+    private $warehouse;
+
+    #[ORM\OneToMany(targetEntity: 'StorageHistory', mappedBy: 'storage')]
+    private $movements;
+
+    public function __construct()
+    {
+        $this->movements = new ArrayCollection();
+    }
+
 
     public function getId(): int
     {
@@ -84,4 +99,19 @@ class Storage
         $this->warehouse_id = $warehouse_id;
     }
 
+    public function getWarehouse()
+    {
+        return $this->warehouse;
+    }
+
+    public function setWarehouse($warehouse)
+    {
+        $this->warehouse = $warehouse;
+    }
+
+    public function getMovements(): Collection
+    {
+        return $this->movements;
+    }
+    
 }

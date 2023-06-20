@@ -24,8 +24,11 @@ class StorageForm extends Control
     }
 
     public function render(): void {
-        $this->template->render(__DIR__ . '/Template/default.latte');
-        //$this->template->render(__DIR__ . '/Template/move.latte');
+        if ($this->presenter->showMove) {
+            $this->template->render(__DIR__ . '/Template/move.latte');
+        } else {
+            $this->template->render(__DIR__ . '/Template/default.latte');
+        }
     }
 
     public function createComponentStorageForm(): Form
@@ -64,5 +67,32 @@ class StorageForm extends Control
             $this->storageService->addStorage($data);
         }
         //$this->presenter->redirect('default'); // cant redirect without passing warehouse ID
+    }
+
+    public function createComponentMoveStorageForm(): Form
+    {
+        $form = new Form;
+        $warehouses = $this->warehouseService->getAllWarehouses();
+
+        foreach ($warehouses as $warehouse) {
+            $form->addButton(strval($warehouse->getId()), $warehouse->getName())->setHtmlAttribute('class', 'btn btn-primary')
+                                                                                ->getControlPrototype()->type('submit');
+        }
+        $form->addHidden('id', '');
+
+        if ($this->storage !== null) {
+            $form->setDefaults([
+                'id' => $this->storage->getId(),
+            ]);
+        }
+
+        $form->onSuccess[] = [$this, 'moveStorage'];
+
+        return $form;
+    }
+
+    public function moveStorage(Form $form, $data) {
+        $this->storageService->moveStorage($data);
+        $this->presenter->flashMessage('Storage moved.');
     }
 }

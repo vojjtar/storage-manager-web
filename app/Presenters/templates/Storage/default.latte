@@ -49,8 +49,8 @@
                         <td>{$item->getPrice()}</td>
                         <td><button class="btn btn-sm btn-info">Detail <i class="fa-solid fa-info"></i></button></td>
                         {* <td><button class="btn btn-sm btn-warning">Edit <i class="fa-solid fa-pencil"></i></button></td> *}
-                        <td><a class="ml-auto ajax" n:href="show! $item->getId()"><button class="btn btn-sm btn-warning">Edit <i class="fa-solid fa-pencil"></i></button></a></td>
-                        <td><a class="ml-auto ajax" n:href="showMove! $item->getId()"><button class="btn btn-sm btn-warning">Move <i class="fa-solid fa-arrow-right"></i></button></a></td>
+                        <td><a class="ml-auto ajax" n:href="show!, ['id' => $item->getId(), 'action' => 'default']"><button class="btn btn-sm btn-warning">Edit <i class="fa-solid fa-pencil"></i></button></a></td>
+                        <td><a class="ml-auto ajax" n:href="show!, ['id' => $item->getId(), 'action' => 'move']"><button class="btn btn-sm btn-warning">Move <i class="fa-solid fa-arrow-right"></i></button></a></td>
                         {* <td><button class="btn btn-sm btn-warning">Move <i class="fa-solid fa-arrow-right"></i></button></td> *}
                         <td><a class="ml-auto" n:href="deleteStorage!, $item->getId()"><button type="submit" name="deleteButton" value="{$item->getId()}" class="btn btn-sm btn-danger">Delete <i class="fa-solid fa-trash"></i></button></a></td>
                     </tr>

@@ -20,6 +20,8 @@ final class StoragePresenter extends Presenter
     private WarehouseService $warehouseService;
     public int|null $id_item = null;
 
+    public bool|null $showMove = false;
+
     public function __construct(
         StorageService      $storageService,
         StorageFormFactory  $storageFormFactory,
@@ -47,25 +49,15 @@ final class StoragePresenter extends Presenter
         return $this->storageFormFactory->create($storage);
     }
     
-    public function createComponentMoveStorageForm(): Form
+    public function createComponentMoveStorageForm(): StorageForm
     {
-        $form = new Form;
-        $warehouses = $this->warehouseService->getAllWarehouses();
-
-        foreach ($warehouses as $warehouse) {
-            $form->addButton(strval($warehouse->getId()), $warehouse->getName())->setHtmlAttribute('class', 'btn btn-primary')
-                                                                                ->getControlPrototype()->type('submit');
+        $storage = null;
+        
+        if ($this->id_item !== null) {
+            $storage = $this->storageService->getStorageSpecific($this->id_item);
         }
-        $form->addHidden('id', $this->id_item);
 
-        $form->onSuccess[] = [$this, 'moveStorage'];
-
-        return $form;
-    }
-
-    public function moveStorage(Form $form, $data) {
-        $this->storageService->moveStorage($data);
-        $this->flashMessage('Storage moved.');
+        return $this->storageFormFactory->create($storage);
     }
 
     public function handleDeleteStorage($itemId): void
@@ -74,20 +66,20 @@ final class StoragePresenter extends Presenter
 		$this->flashMessage('Storage deleted.');
     }
 
-    public function handleShow($id_item) {
+    public function handleShow(array $params) {
         if ($this->isAjax()) {
-            $this->template->id_item = intval($id_item);
-            $this->id_item = intval($id_item);
-            $this->redrawControl('storageFormSnippet');
+            $this->template->id_item = intval($params['id']);
+            $this->id_item = intval($params['id']);
+
+            if ($params['action'] == 'default') {
+                $this->showMove = false;
+                $this->redrawControl('storageFormSnippet');
+            }
+            else if ($params['action'] == 'move') {
+                $this->showMove = true;
+                $this->redrawControl('storageFormMoveSnippet');
+            }
+
         }
     }
-
-    public function handleShowMove($id_item) {
-        if ($this->isAjax()) {
-            $this->template->id_item = intval($id_item);
-            $this->id_item = intval($id_item);
-            $this->redrawControl('storageFormMoveSnippet');
-        }
-    }
-
 }

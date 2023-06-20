@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Model\Service;
 
+use App\Model\Entity\StorageHistory;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Model\Entity\Storage;
 use App\Model\Entity\Warehouse;
+use DateTime;
 
 
 class StorageService
@@ -80,12 +82,27 @@ class StorageService
 
         $warehouse_to = $data[0];
 
+        $storage = $this->entityManager->find(Storage::class, $item_id);
+        $warehouse_to = $this->entityManager->find(Warehouse::class, $warehouse_to);
+
         $queryBuilder = $this->entityManager->createQueryBuilder();
-        $queryBuilder->update(Storage::class, 's')->set('s.warehouse_id', ':warehouse_id')->where('s.id = :item_id')
-                                                  ->setParameter('warehouse_id', $warehouse_to)
-                                                  ->setParameter('item_id', $item_id);
-        
+
+        $queryBuilder->update(Storage::class, 's')
+            ->set('s.warehouse_id', ':warehouse_id')
+            ->where('s.id = :item_id')
+            ->setParameter('warehouse_id', $warehouse_to)
+            ->setParameter('item_id', $item_id);
+    
         $queryBuilder->getQuery()->execute();
+        
+        $movement = new StorageHistory();
+        $movement->setTimestamp(new DateTime());
+        $movement->setStorage($storage);
+        $movement->setFromWarehouse($storage->getWarehouse());
+        $movement->setToWarehouse($warehouse_to);
+        
+        $this->entityManager->persist($movement);
+        $this->entityManager->flush();
     }
 
     public function deleteStorage($itemId): void {

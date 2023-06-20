@@ -27,6 +27,9 @@ class Warehouse
     #[ORM\Column(type: 'datetime')]
     private $created;
 
+    #[ORM\OneToMany(targetEntity: 'Storage', mappedBy: 'warehouse')]
+    private $storages;
+
 
     public function getId(): int
     {
@@ -71,6 +74,16 @@ class Warehouse
     public function setCreated($created)
     {
         $this->created = $created;
+    }
+
+    public function getStorages()
+    {
+        return $this->storages;
+    }
+
+    public function getNumberOfItems()
+    {
+        return count($this->storages);
     }
 
 }
