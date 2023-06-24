@@ -64,7 +64,7 @@ class StorageForm extends Control
         }
         else {
             // $data->warehouse_id also possible
-            //$data->warehouse_id = intval($this->presenter->getParameterId('id')); // getting warehouse_id parameter from the url, could also take it from the template
+            $data->warehouse_id = 13; // getting warehouse_id parameter from the url, could also take it from the template
             $this->storageService->addStorage($data);
         }
         //$this->presenter->redirect('default'); // cant redirect without passing warehouse ID

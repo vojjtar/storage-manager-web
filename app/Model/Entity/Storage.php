@@ -29,11 +29,11 @@ class Storage
     #[ORM\Column(type: 'float')]
     private $price;
 
-    #[ORM\Column(type: 'integer')]
-    private $warehouse_id;
+    // #[ORM\Column(type: 'integer')]
+    // private $warehouse_id;
 
     #[ORM\ManyToOne(targetEntity: 'Warehouse', inversedBy: 'storages')]
-    #[ORM\JoinColumn(name: 'warehouse_id', referencedColumnName: 'id')]
+    // #[ORM\JoinColumn(name: 'warehouse_id', referencedColumnName: 'id')]
     private $warehouse;
 
     #[ORM\OneToMany(targetEntity: 'StorageHistory', mappedBy: 'storage')]

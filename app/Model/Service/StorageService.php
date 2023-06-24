@@ -29,7 +29,7 @@ class StorageService
 
     public function getStorage($id) {
         $queryBuilder = $this->entityManager->createQueryBuilder();
-        $queryBuilder->select('s')->from(Storage::class, 's')->where('s.warehouse_id = :id')->setParameter('id', $id);        
+        $queryBuilder->select('s')->from(Storage::class, 's')->where('s.warehouse = :id')->setParameter('id', $id);        
         $storage = $queryBuilder->getQuery()->getResult();
         $queryBuilder->resetDQLParts();
         $queryBuilder->select('w')->from(Warehouse::class, 'w')->where('w.id = :id')->setParameter('id', $id);
@@ -41,14 +41,17 @@ class StorageService
     }
 
     public function addStorage($data): void {
+        // exception pridat
+        $warehouse = $this->entityManager->find(Warehouse::class, $data->warehouse_id);
+        
         $storage_item = new Storage();
         $storage_item->setName($data['name']);
         $storage_item->setDescription($data['description']);
         $storage_item->setCode(intval($data['code']));
         $storage_item->setPrice(floatval($data['price']));
-        $storage_item->setWarehouseId(10);
+        $storage_item->setWarehouse($warehouse);
 
-        dump($storage_item);
+        dump($data);
 
         $this->entityManager->persist($storage_item);
         $this->entityManager->flush();
