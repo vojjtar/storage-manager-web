@@ -45,7 +45,7 @@ class StorageForm extends Control
         if ($this->storage !== null) {
             $form->setDefaults([
                 'id' => $this->storage->getId(),
-                'warehouse_id' => $this->storage->getWarehouseId(),
+                'warehouse_id' => $this->storage->getWarehouse()->getId(),
                 'name' => $this->storage->getName(),
                 'description' => $this->storage->getDescription(),
                 'code' => $this->storage->getCode(),
@@ -63,8 +63,7 @@ class StorageForm extends Control
             $this->storageService->editStorage($data);
         }
         else {
-            // $data->warehouse_id also possible
-            $data->warehouse_id = 13; // getting warehouse_id parameter from the url, could also take it from the template
+            $data->warehouse_id = $this->presenter->getParameter('id'); // getting warehouse_id parameter from the url, could also take it from the template
             $this->storageService->addStorage($data);
         }
         //$this->presenter->redirect('default'); // cant redirect without passing warehouse ID
@@ -76,8 +75,9 @@ class StorageForm extends Control
         $warehouses = $this->warehouseService->getAllWarehouses();
 
         foreach ($warehouses as $warehouse) {
-            $form->addButton(strval($warehouse->getId()), $warehouse->getName())->setHtmlAttribute('class', 'btn btn-primary')
-                                                                                ->getControlPrototype()->type('submit');
+            if (strval($warehouse->getId()) !== $this->presenter->getParameter('id')) {
+                $form->addButton(strval($warehouse->getId()), $warehouse->getName())->setHtmlAttribute('class', 'btn btn-primary')->getControlPrototype()->type('submit');
+            }
         }
         $form->addHidden('id', '');
 

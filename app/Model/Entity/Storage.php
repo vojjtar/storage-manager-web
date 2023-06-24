@@ -90,15 +90,15 @@ class Storage
         $this->price = $price;
     }
 
-    public function getWarehouseId(): int
-    {
-        return $this->warehouse_id;
-    }
+    // public function getWarehouseId(): int
+    // {
+    //     return $this->warehouse_id;
+    // }
 
-    public function setWarehouseId(int $warehouse_id): void
-    {
-        $this->warehouse_id = $warehouse_id;
-    }
+    // public function setWarehouseId(int $warehouse_id): void
+    // {
+    //     $this->warehouse_id = $warehouse_id;
+    // }
 
     public function getWarehouse()
     {

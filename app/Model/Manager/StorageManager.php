@@ -3,10 +3,10 @@
 namespace App\Model\Manager;
 
 use Doctrine\ORM\EntityManagerInterface;
-use App\Model\Entity\Warehouse;
+use App\Model\Entity\Storage;
 
 
-class WarehouseManager
+class StorageManager
 {
     private EntityManagerInterface $entityManager;
 
@@ -15,8 +15,8 @@ class WarehouseManager
         $this->entityManager = $entityManager;
     }
 
-    public function getStorageEntity($warehouse_id): Warehouse {
-        return $this->entityManager->find(Warehouse::class, $warehouse_id);
+    public function getStorageEntity($storage_id): Storage {
+        return $this->entityManager->find(Storage::class, $storage_id);
     }
 
 }

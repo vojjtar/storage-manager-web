@@ -113,8 +113,9 @@
                         </div>
                         <div class="modal-body">
                             {foreach $movements as $movement}
-                                <p>Timestamp: {$movement->getTimestamp()|date:'Y-m-d H:i:s'}</p>
+                                <p><b>From:</b> {$movement->getFromWarehouse()->getName()} -> <b>To:</b> {$movement->getToWarehouse()->getName()} ({$movement->getTimestamp()|date:'Y-m-d H:i:s'})</p>
                             {/foreach}
+                            <p>Current: <b>{$warehouse->getName()}</b></p>
                         </div>
                     </div>
                 </div>
@@ -122,7 +123,6 @@
             <script>
                 $('#storage-detail').modal('show');
             </script>
-
         {/if}
     {/snippet}
 

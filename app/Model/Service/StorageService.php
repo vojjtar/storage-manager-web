@@ -51,11 +51,8 @@ class StorageService
         $storage_item->setPrice(floatval($data['price']));
         $storage_item->setWarehouse($warehouse);
 
-        dump($data);
-
         $this->entityManager->persist($storage_item);
         $this->entityManager->flush();
-
     }
 
     public function editStorage($data): void {
@@ -76,6 +73,7 @@ class StorageService
     }
 
     public function moveStorage($data): void {
+
         $item_id = $data['id'];
 
         foreach ($data as $key => $value) {
@@ -85,8 +83,8 @@ class StorageService
         }
 
         $data = array_keys((array) $data);
-
         $warehouse_to = $data[0];
+
 
         $storage = $this->entityManager->find(Storage::class, $item_id);
         $warehouse_to = $this->entityManager->find(Warehouse::class, $warehouse_to);
@@ -94,9 +92,9 @@ class StorageService
         $queryBuilder = $this->entityManager->createQueryBuilder();
 
         $queryBuilder->update(Storage::class, 's')
-            ->set('s.warehouse_id', ':warehouse_id')
+            ->set('s.warehouse', ':warehouse')
             ->where('s.id = :item_id')
-            ->setParameter('warehouse_id', $warehouse_to)
+            ->setParameter('warehouse', $warehouse_to)
             ->setParameter('item_id', $item_id);
     
         $queryBuilder->getQuery()->execute();

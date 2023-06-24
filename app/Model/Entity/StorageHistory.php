@@ -27,38 +27,48 @@ class StorageHistory
     #[ORM\JoinColumn(name: 'to_warehouse_id', referencedColumnName: 'id')]
     private $toWarehouse;
 
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
-    public function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
     }
 
-    public function getTimestamp() {
+    public function getTimestamp()
+    {
         return $this->timestamp;
     }
-    public function setTimestamp($timestamp) {
+    public function setTimestamp($timestamp)
+    {
         $this->timestamp = $timestamp;
     }
 
-    public function getStorage() {
+    public function getStorage()
+    {
         return $this->storage;
     }
-    public function setStorage($storage) {
+    public function setStorage($storage)
+    {
         $this->storage = $storage;
     }
 
-    public function getFromWarehouse() {
+    public function getFromWarehouse()
+    {
         return $this->fromWarehouse;
     }
-    public function setFromWarehouse($fromWarehouse) {
+    public function setFromWarehouse($fromWarehouse)
+    {
         $this->fromWarehouse = $fromWarehouse;
     }
 
-    public function getToWarehouse() {
+    public function getToWarehouse()
+    {
         return $this->toWarehouse;
     }
-    public function setToWarehouse($toWarehouse) {
+    public function setToWarehouse($toWarehouse)
+    {
         $this->toWarehouse = $toWarehouse;
     }
 }
