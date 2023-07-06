@@ -14,3 +14,5 @@ services:
 	- App\Component\Form\Warehouse\WarehouseFormFactory
 	- App\Model\Manager\WarehouseManager
 	- App\Component\Form\Warehouse\WarehouseForm
+	- App\Model\Entity\User
+	- App\Model\Service\UserService
