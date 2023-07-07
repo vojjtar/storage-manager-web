@@ -21,7 +21,7 @@ class UserForm extends Control
 	}
 
     public function render(): void {
-        if ($this->presenter->login) {
+        if ($this->presenter->isLogin) {
             $this->template->render(__DIR__ . '/Template/login.latte');
         } else {
             $this->template->render(__DIR__ . '/Template/register.latte');

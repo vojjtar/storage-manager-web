@@ -18,8 +18,8 @@ final class RouterFactory
 		//$router->addRoute('<presenter>/<action>[/<id>]', 'Home:default');
 		$router->addRoute('warehouse/', 'Warehouse:default');
 		$router->addRoute('warehouse/storage/', 'Storage:default');
-		$router->addRoute('login/', 'User:default');
-		$router->addRoute('/register', 'User:default');
+		$router->addRoute('login', 'User:default');
+		$router->addRoute('register', 'User:default');
 		return $router;
 	}
 }
