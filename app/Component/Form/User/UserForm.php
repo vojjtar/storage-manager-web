@@ -31,19 +31,40 @@ class UserForm extends Control
     public function createComponentUserLoginForm(): Form
     {
         $form = new Form;
-        $form->addText('name', 'Name:')->setRequired()->setHtmlAttribute('class', 'form-control');
-        $form->addPassword('password', 'Password:')->setRequired()->setHtmlAttribute('class', 'form-control');
+        $form->addText('name', 'Name:')->setRequired()->setHtmlAttribute('class', 'form-control mt-1');
+        $form->addPassword('password', 'Password:')->setRequired()->setHtmlAttribute('class', 'form-control mt-1');
+        $form->addSubmit('submit', 'OK')->setHtmlAttribute('class', 'btn btn-primary float-right mt-2');
         
+        $form->onSuccess[] = [$this, 'loginFormOnSuccess'];
+
         return $form;
     }
 
     public function createComponentUserRegisterForm(): Form
     {
         $form = new Form;
-        $form->addText('name', 'Name:')->setRequired()->setHtmlAttribute('class', 'form-control');
-        $form->addText('email', 'Email:')->setRequired()->setHtmlAttribute('class', 'form-control');
-        $form->addPassword('password', 'Password:')->setRequired()->setHtmlAttribute('class', 'form-control');
+        $form->addText('name', 'Name:')->setRequired()->setHtmlAttribute('class', 'form-control mt-1');
+        $form->addText('email', 'Email:')->setRequired()->setHtmlAttribute('class', 'form-control mt-1');
+        $form->addPassword('password', 'Password:')->setRequired()->setHtmlAttribute('class', 'form-control mt-1');
+        $form->addSubmit('submit', 'OK')->setHtmlAttribute('class', 'btn btn-primary float-right mt-2');
         
+        $form->onSuccess[] = [$this, 'registerFormOnSuccess'];
+
         return $form;
+    }
+
+    public function loginFormOnSuccess(Form $form, $data): void {
+        
+    }
+
+    public function registerFormOnSuccess(Form $form, $data): void {
+
+        if ($this->userService->findUserByName($data['name'])) {
+            $this->presenter->flashMessage('Username already taken!');
+            return;
+        }
+
+        $this->userService->registerUser($data);
+        $this->presenter->flashMessage('Registered successfully');
     }
 }

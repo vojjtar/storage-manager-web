@@ -6,4 +6,8 @@ parameters:
         password: ''
         dbname: 'test'
 
+# security:
+#     users:
+#         bcrypt:
+#             cost: 12
 

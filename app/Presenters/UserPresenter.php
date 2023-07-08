@@ -25,15 +25,14 @@ final class UserPresenter extends Presenter
         $this->userService = $userService;
     }
 
-    public function renderDefault(): void
-    {
-        $route = 'register';
-        if ($route === 'login') {
-            $this->isLogin = true;
-        }
-        else {
-            $this->isLogin = false;
-        }
+    public function actionLogin(): void {
+        $this->isLogin = true;
+        $this->template->setFile(__DIR__ . '/templates/User/default.latte');
+    }
+
+    public function actionRegister(): void {
+        $this->isLogin = false;
+        $this->template->setFile(__DIR__ . '/templates/User/default.latte');
     }
 
     public function createComponentUserForm(): UserForm

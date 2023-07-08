@@ -4,12 +4,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <link rel="stylesheet" href="{$basePath}/css/warehouse.css">
+    <title>Login</title> 
+    {* TODO: set login/register on isLogin var in presenter *}
 </head>
 <body>
-
     {block content}
 
-    {control userForm}
+    <div class="d-flex justify-content-center">
+        <div class="mt-5 shadow">
+            {control userForm}
+            <div class="text-center">
+                <img src="https://i.pinimg.com/originals/e7/a3/3a/e7a33a0483b49379869a93bb7ed053f6.gif" class="img-thumbnail" style="max-width: 300px;">
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>

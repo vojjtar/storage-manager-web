@@ -16,3 +16,5 @@ services:
 	- App\Component\Form\Warehouse\WarehouseForm
 	- App\Model\Entity\User
 	- App\Model\Service\UserService
+	- App\Model\Manager\UserManager
+	security.passwords: Nette\Security\Passwords(::PASSWORD_BCRYPT, [cost: 12])
