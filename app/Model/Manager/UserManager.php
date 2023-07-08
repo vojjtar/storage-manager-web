@@ -5,23 +5,19 @@ namespace App\Model\Manager;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Model\Entity\User;
 use Nette\Security\Passwords;
-use App\Model\Service\UserService;
 use Nette\Security\SimpleIdentity;
 
 
 class UserManager
 {
     private EntityManagerInterface $entityManager;
-    private UserService            $userService;
     private Passwords $passwords;
 
     public function __construct(
         EntityManagerInterface $entityManager,
-        UserService            $userService,
         Passwords              $passwords
     ) {
         $this->entityManager = $entityManager;
-        $this->userService   = $userService;
         $this->passwords     = $passwords;
     }
 
@@ -30,17 +26,17 @@ class UserManager
     }
 
     public function authenticateUser($name, $password) {
-        $user = $this->userService->findUserByName($name);
-        if ($user) {
-            $hashPassword = $user->getPassword();
-            if ($this->passwords->verify($password, $hashPassword)) {
-                return new SimpleIdentity(
-                    $user->getId(),
-                    ['name' => $user->getName()],
-                );
-            }
-        }
-        return false;
+        // $user = $this->userService->findUserByName($name);
+        // if ($user) {
+        //     $hashPassword = $user->getPassword();
+        //     if ($this->passwords->verify($password, $hashPassword)) {
+        //         return new SimpleIdentity(
+        //             $user->getId(),
+        //             ['name' => $user->getName()],
+        //         );
+        //     }
+        // }
+        // return false;
     }
 
     public function createUser($data): User {
