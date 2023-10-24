@@ -39,6 +39,7 @@ class StorageForm extends Control
 		$form->addText('name', 'Name:')->setRequired()->setHtmlAttribute('class', 'form-control');
 		$form->addText('description', 'Description:')->setRequired()->setHtmlAttribute('class', 'form-control');
 		$form->addText('code', 'Code:')->setRequired()->setHtmlAttribute('class', 'form-control');
+        $form->addInteger('qty', 'Quantity')->setRequired()->setHtmlAttribute('class', 'form-control');
 		$form->addText('price', 'Price ($USD):')->setRequired()->setHtmlAttribute('class', 'form-control');
 		$form->addSubmit('send', 'OK')->setHtmlAttribute('class', 'btn btn-primary float-right');
 
@@ -49,6 +50,7 @@ class StorageForm extends Control
                 'name' => $this->storage->getName(),
                 'description' => $this->storage->getDescription(),
                 'code' => $this->storage->getCode(),
+                'qty' => $this->storage->getQty(),
                 'price' => $this->storage->getPrice()
             ]);
         }
@@ -59,12 +61,22 @@ class StorageForm extends Control
     }
 
     public function storageFormOnSuccess(Form $form, $data): void {
-        if ($data->id !== '') {
-            $this->storageService->editStorage($data);
+        $already_exists = $this->storageService->getStorageByCode($data['code']);
+
+        if ($already_exists !== null && intval($data->id) != $already_exists->getId()) {
+            $this->presenter->flashMessage('Product code already exists');
         }
         else {
-            $data->warehouse_id = $this->presenter->getParameter('id'); // getting warehouse_id parameter from the url, could also take it from the template
-            $this->storageService->addStorage($data);
+            if ($data->id !== '') {
+                $this->storageService->editStorage($data);
+                $this->redirect('this');
+            }
+            else {
+    
+                $data->warehouse_id = $this->presenter->getParameter('id'); // getting warehouse_id parameter from the url, could also take it from the template
+                $this->storageService->addStorage($data);
+                $this->redirect('this');
+            }
         }
         //$this->presenter->redirect('default'); // cant redirect without passing warehouse ID
     }
@@ -74,16 +86,27 @@ class StorageForm extends Control
         $form = new Form;
         $warehouses = $this->warehouseService->getAllWarehouses();
 
+        $form->addInteger('qty', 'Quantity:')->setHtmlAttribute('class', 'form-control');
+
+        bdump($warehouses);
+
+        $warehousesArray = [];
         foreach ($warehouses as $warehouse) {
-            if (strval($warehouse->getId()) !== $this->presenter->getParameter('id')) {
-                $form->addButton(strval($warehouse->getId()), $warehouse->getName())->setHtmlAttribute('class', 'btn btn-primary')->getControlPrototype()->type('submit');
-            }
+            $warehousesArray[$warehouse->getId()] = $warehouse->getName();
         }
+
+        $form->addRadioList('selected_warehouse_id', '', $warehousesArray);
+
         $form->addHidden('id', '');
+        $form->addHidden('current_warehouse_id');
+
+        $form->addSubmit('save', 'Save')->setHtmlAttribute('class', 'btn btn-primary')->getControlPrototype();
+
 
         if ($this->storage !== null) {
             $form->setDefaults([
                 'id' => $this->storage->getId(),
+                'current_warehouse_id' => $this->storage->getWarehouse()->getId(),
             ]);
         }
         $form->onSuccess[] = [$this, 'moveStorage'];

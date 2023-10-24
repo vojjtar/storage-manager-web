@@ -6,6 +6,7 @@ namespace App\Presenters;
 
 use App\Component\Form\Storage\StorageForm;
 use Nette;
+use Mpdf\Mpdf;
 use Nette\Application\UI\Presenter;
 use Nette\Application\UI\Form;
 use App\Model\Service\StorageService;
@@ -112,4 +113,23 @@ final class StoragePresenter extends Presenter
             }
         }
     }
+
+    // public function actionDefault()
+    // {
+    //     // // Create an instance of mPDF
+    //     // $mpdf = new Mpdf();
+
+    //     // // Your content for the PDF
+    //     // $html = '<h1>Hello, mPDF!</h1>';
+
+    //     // // Add content to the PDF
+    //     // $mpdf->WriteHTML($html);
+
+    //     // // Optional: Set PDF properties like title, author, etc.
+    //     // $mpdf->SetTitle('My PDF');
+    //     // $mpdf->SetAuthor('Your Name');
+
+    //     // // Output the PDF to the browser
+    //     // $mpdf->Output('my_pdf.pdf', 'D');
+    // }
 }

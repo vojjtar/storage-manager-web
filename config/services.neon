@@ -17,4 +17,5 @@ services:
 	- App\Model\Entity\User
 	- App\Model\Service\UserService
 	- App\Model\Manager\UserManager
+	- Contributte\Console\Application
 	security.passwords: Nette\Security\Passwords(::PASSWORD_BCRYPT, [cost: 12])

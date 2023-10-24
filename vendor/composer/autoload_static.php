@@ -34,6 +34,7 @@ class ComposerStaticInitbaffb8a8445739b6af190f33738c6458
         ),
         'P' => 
         array (
+            'Psr\\Log\\' => 8,
             'Psr\\Container\\' => 14,
             'Psr\\Cache\\' => 10,
         ),
@@ -110,6 +111,10 @@ class ComposerStaticInitbaffb8a8445739b6af190f33738c6458
         array (
             0 => __DIR__ . '/..' . '/symfony/console',
         ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/src',
+        ),
         'Psr\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
@@ -156,7 +161,7 @@ class ComposerStaticInitbaffb8a8445739b6af190f33738c6458
         ),
         'Doctrine\\DBAL\\' => 
         array (
-            0 => __DIR__ . '/..' . '/doctrine/dbal/lib/Doctrine/DBAL',
+            0 => __DIR__ . '/..' . '/doctrine/dbal/src',
         ),
         'Doctrine\\Common\\Lexer\\' => 
         array (
@@ -195,7 +200,19 @@ class ComposerStaticInitbaffb8a8445739b6af190f33738c6458
 
     public static $classMap = array (
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
+        'CGIF' => __DIR__ . '/..' . '/mpdf/mpdf/classes/gif.php',
+        'CGIFCOLORTABLE' => __DIR__ . '/..' . '/mpdf/mpdf/classes/gif.php',
+        'CGIFFILEHEADER' => __DIR__ . '/..' . '/mpdf/mpdf/classes/gif.php',
+        'CGIFIMAGE' => __DIR__ . '/..' . '/mpdf/mpdf/classes/gif.php',
+        'CGIFIMAGEHEADER' => __DIR__ . '/..' . '/mpdf/mpdf/classes/gif.php',
+        'CGIFLZW' => __DIR__ . '/..' . '/mpdf/mpdf/classes/gif.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'FPDF_TPL' => __DIR__ . '/..' . '/setasign/fpdi/fpdf_tpl.php',
+        'FPDI' => __DIR__ . '/..' . '/setasign/fpdi/fpdi.php',
+        'FilterASCII85' => __DIR__ . '/..' . '/setasign/fpdi/filters/FilterASCII85.php',
+        'FilterASCIIHexDecode' => __DIR__ . '/..' . '/setasign/fpdi/filters/FilterASCIIHexDecode.php',
+        'FilterLZW' => __DIR__ . '/..' . '/setasign/fpdi/filters/FilterLZW.php',
+        'INDIC' => __DIR__ . '/..' . '/mpdf/mpdf/classes/indic.php',
         'Latte\\Attributes\\TemplateFilter' => __DIR__ . '/..' . '/latte/latte/src/Latte/attributes.php',
         'Latte\\Attributes\\TemplateFunction' => __DIR__ . '/..' . '/latte/latte/src/Latte/attributes.php',
         'Latte\\Bridges\\Tracy\\BlueScreenPanel' => __DIR__ . '/..' . '/latte/latte/src/Bridges/Tracy/BlueScreenPanel.php',
@@ -215,7 +232,6 @@ class ComposerStaticInitbaffb8a8445739b6af190f33738c6458
         'Latte\\Compiler\\Nodes\\Html\\BogusTagNode' => __DIR__ . '/..' . '/latte/latte/src/Latte/Compiler/Nodes/Html/BogusTagNode.php',
         'Latte\\Compiler\\Nodes\\Html\\CommentNode' => __DIR__ . '/..' . '/latte/latte/src/Latte/Compiler/Nodes/Html/CommentNode.php',
         'Latte\\Compiler\\Nodes\\Html\\ElementNode' => __DIR__ . '/..' . '/latte/latte/src/Latte/Compiler/Nodes/Html/ElementNode.php',
-        'Latte\\Compiler\\Nodes\\Html\\QuotedValue' => __DIR__ . '/..' . '/latte/latte/src/Latte/Compiler/Nodes/Html/QuotedValue.php',
         'Latte\\Compiler\\Nodes\\NopNode' => __DIR__ . '/..' . '/latte/latte/src/Latte/Compiler/Nodes/NopNode.php',
         'Latte\\Compiler\\Nodes\\Php\\ArgumentNode' => __DIR__ . '/..' . '/latte/latte/src/Latte/Compiler/Nodes/Php/ArgumentNode.php',
         'Latte\\Compiler\\Nodes\\Php\\ArrayItemNode' => __DIR__ . '/..' . '/latte/latte/src/Latte/Compiler/Nodes/Php/ArrayItemNode.php',
@@ -227,6 +243,7 @@ class ComposerStaticInitbaffb8a8445739b6af190f33738c6458
         'Latte\\Compiler\\Nodes\\Php\\Expression\\ArrayNode' => __DIR__ . '/..' . '/latte/latte/src/Latte/Compiler/Nodes/Php/Expression/ArrayNode.php',
         'Latte\\Compiler\\Nodes\\Php\\Expression\\AssignNode' => __DIR__ . '/..' . '/latte/latte/src/Latte/Compiler/Nodes/Php/Expression/AssignNode.php',
         'Latte\\Compiler\\Nodes\\Php\\Expression\\AssignOpNode' => __DIR__ . '/..' . '/latte/latte/src/Latte/Compiler/Nodes/Php/Expression/AssignOpNode.php',
+        'Latte\\Compiler\\Nodes\\Php\\Expression\\AuxiliaryNode' => __DIR__ . '/..' . '/latte/latte/src/Latte/Compiler/Nodes/Php/Expression/AuxiliaryNode.php',
         'Latte\\Compiler\\Nodes\\Php\\Expression\\BinaryOpNode' => __DIR__ . '/..' . '/latte/latte/src/Latte/Compiler/Nodes/Php/Expression/BinaryOpNode.php',
         'Latte\\Compiler\\Nodes\\Php\\Expression\\CastNode' => __DIR__ . '/..' . '/latte/latte/src/Latte/Compiler/Nodes/Php/Expression/CastNode.php',
         'Latte\\Compiler\\Nodes\\Php\\Expression\\ClassConstantFetchNode' => __DIR__ . '/..' . '/latte/latte/src/Latte/Compiler/Nodes/Php/Expression/ClassConstantFetchNode.php',
@@ -252,6 +269,7 @@ class ComposerStaticInitbaffb8a8445739b6af190f33738c6458
         'Latte\\Compiler\\Nodes\\Php\\Expression\\StaticCallNode' => __DIR__ . '/..' . '/latte/latte/src/Latte/Compiler/Nodes/Php/Expression/StaticCallNode.php',
         'Latte\\Compiler\\Nodes\\Php\\Expression\\StaticCallableNode' => __DIR__ . '/..' . '/latte/latte/src/Latte/Compiler/Nodes/Php/Expression/StaticCallableNode.php',
         'Latte\\Compiler\\Nodes\\Php\\Expression\\StaticPropertyFetchNode' => __DIR__ . '/..' . '/latte/latte/src/Latte/Compiler/Nodes/Php/Expression/StaticPropertyFetchNode.php',
+        'Latte\\Compiler\\Nodes\\Php\\Expression\\TemporaryNode' => __DIR__ . '/..' . '/latte/latte/src/Latte/Compiler/Nodes/Php/Expression/TemporaryNode.php',
         'Latte\\Compiler\\Nodes\\Php\\Expression\\TernaryNode' => __DIR__ . '/..' . '/latte/latte/src/Latte/Compiler/Nodes/Php/Expression/TernaryNode.php',
         'Latte\\Compiler\\Nodes\\Php\\Expression\\UnaryOpNode' => __DIR__ . '/..' . '/latte/latte/src/Latte/Compiler/Nodes/Php/Expression/UnaryOpNode.php',
         'Latte\\Compiler\\Nodes\\Php\\Expression\\VariableNode' => __DIR__ . '/..' . '/latte/latte/src/Latte/Compiler/Nodes/Php/Expression/VariableNode.php',
@@ -259,6 +277,8 @@ class ComposerStaticInitbaffb8a8445739b6af190f33738c6458
         'Latte\\Compiler\\Nodes\\Php\\IdentifierNode' => __DIR__ . '/..' . '/latte/latte/src/Latte/Compiler/Nodes/Php/IdentifierNode.php',
         'Latte\\Compiler\\Nodes\\Php\\InterpolatedStringPartNode' => __DIR__ . '/..' . '/latte/latte/src/Latte/Compiler/Nodes/Php/InterpolatedStringPartNode.php',
         'Latte\\Compiler\\Nodes\\Php\\IntersectionTypeNode' => __DIR__ . '/..' . '/latte/latte/src/Latte/Compiler/Nodes/Php/IntersectionTypeNode.php',
+        'Latte\\Compiler\\Nodes\\Php\\ListItemNode' => __DIR__ . '/..' . '/latte/latte/src/Latte/Compiler/Nodes/Php/ListItemNode.php',
+        'Latte\\Compiler\\Nodes\\Php\\ListNode' => __DIR__ . '/..' . '/latte/latte/src/Latte/Compiler/Nodes/Php/ListNode.php',
         'Latte\\Compiler\\Nodes\\Php\\MatchArmNode' => __DIR__ . '/..' . '/latte/latte/src/Latte/Compiler/Nodes/Php/MatchArmNode.php',
         'Latte\\Compiler\\Nodes\\Php\\ModifierNode' => __DIR__ . '/..' . '/latte/latte/src/Latte/Compiler/Nodes/Php/ModifierNode.php',
         'Latte\\Compiler\\Nodes\\Php\\NameNode' => __DIR__ . '/..' . '/latte/latte/src/Latte/Compiler/Nodes/Php/NameNode.php',
@@ -371,6 +391,7 @@ class ComposerStaticInitbaffb8a8445739b6af190f33738c6458
         'Latte\\SecurityViolationException' => __DIR__ . '/..' . '/latte/latte/src/Latte/exceptions.php',
         'Latte\\Strict' => __DIR__ . '/..' . '/latte/latte/src/Latte/Strict.php',
         'Latte\\Tools\\Linter' => __DIR__ . '/..' . '/latte/latte/src/Tools/Linter.php',
+        'MYANMAR' => __DIR__ . '/..' . '/mpdf/mpdf/classes/myanmar.php',
         'NetteModule\\ErrorPresenter' => __DIR__ . '/..' . '/nette/application/src/Application/ErrorPresenter.php',
         'NetteModule\\MicroPresenter' => __DIR__ . '/..' . '/nette/application/src/Application/MicroPresenter.php',
         'Nette\\Application\\AbortException' => __DIR__ . '/..' . '/nette/application/src/Application/exceptions.php',
@@ -761,6 +782,7 @@ class ComposerStaticInitbaffb8a8445739b6af190f33738c6458
         'Nette\\Utils\\IHtmlString' => __DIR__ . '/..' . '/nette/utils/src/compatibility.php',
         'Nette\\Utils\\Image' => __DIR__ . '/..' . '/nette/utils/src/Utils/Image.php',
         'Nette\\Utils\\ImageException' => __DIR__ . '/..' . '/nette/utils/src/Utils/exceptions.php',
+        'Nette\\Utils\\ImageType' => __DIR__ . '/..' . '/nette/utils/src/Utils/ImageType.php',
         'Nette\\Utils\\Json' => __DIR__ . '/..' . '/nette/utils/src/Utils/Json.php',
         'Nette\\Utils\\JsonException' => __DIR__ . '/..' . '/nette/utils/src/Utils/exceptions.php',
         'Nette\\Utils\\ObjectHelpers' => __DIR__ . '/..' . '/nette/utils/src/Utils/ObjectHelpers.php',
@@ -773,8 +795,14 @@ class ComposerStaticInitbaffb8a8445739b6af190f33738c6458
         'Nette\\Utils\\UnknownImageFileException' => __DIR__ . '/..' . '/nette/utils/src/Utils/exceptions.php',
         'Nette\\Utils\\Validators' => __DIR__ . '/..' . '/nette/utils/src/Utils/Validators.php',
         'Normalizer' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/Resources/stubs/Normalizer.php',
+        'OTLdump' => __DIR__ . '/..' . '/mpdf/mpdf/classes/otl_dump.php',
+        'PDFBarcode' => __DIR__ . '/..' . '/mpdf/mpdf/classes/barcode.php',
         'PhpToken' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
+        'SEA' => __DIR__ . '/..' . '/mpdf/mpdf/classes/sea.php',
+        'SVG' => __DIR__ . '/..' . '/mpdf/mpdf/classes/svg.php',
         'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
+        'TTFontFile' => __DIR__ . '/..' . '/mpdf/mpdf/classes/ttfontsuni.php',
+        'TTFontFile_Analysis' => __DIR__ . '/..' . '/mpdf/mpdf/classes/ttfontsuni_analysis.php',
         'Tester\\Assert' => __DIR__ . '/..' . '/nette/tester/src/Framework/Assert.php',
         'Tester\\AssertException' => __DIR__ . '/..' . '/nette/tester/src/Framework/AssertException.php',
         'Tester\\CodeCoverage\\Collector' => __DIR__ . '/..' . '/nette/tester/src/CodeCoverage/Collector.php',
@@ -813,6 +841,7 @@ class ComposerStaticInitbaffb8a8445739b6af190f33738c6458
         'Tracy\\Bridges\\Nette\\TracyExtension' => __DIR__ . '/..' . '/tracy/tracy/src/Bridges/Nette/TracyExtension.php',
         'Tracy\\Bridges\\Psr\\PsrToTracyLoggerAdapter' => __DIR__ . '/..' . '/tracy/tracy/src/Bridges/Psr/PsrToTracyLoggerAdapter.php',
         'Tracy\\Bridges\\Psr\\TracyToPsrLoggerAdapter' => __DIR__ . '/..' . '/tracy/tracy/src/Bridges/Psr/TracyToPsrLoggerAdapter.php',
+        'Tracy\\CodeHighlighter' => __DIR__ . '/..' . '/tracy/tracy/src/Tracy/BlueScreen/CodeHighlighter.php',
         'Tracy\\Debugger' => __DIR__ . '/..' . '/tracy/tracy/src/Tracy/Debugger/Debugger.php',
         'Tracy\\DefaultBarPanel' => __DIR__ . '/..' . '/tracy/tracy/src/Tracy/Bar/DefaultBarPanel.php',
         'Tracy\\DeferredContent' => __DIR__ . '/..' . '/tracy/tracy/src/Tracy/Debugger/DeferredContent.php',
@@ -831,8 +860,21 @@ class ComposerStaticInitbaffb8a8445739b6af190f33738c6458
         'Tracy\\OutputDebugger' => __DIR__ . '/..' . '/tracy/tracy/src/Tracy/OutputDebugger/OutputDebugger.php',
         'Tracy\\ProductionStrategy' => __DIR__ . '/..' . '/tracy/tracy/src/Tracy/Debugger/ProductionStrategy.php',
         'Tracy\\SessionStorage' => __DIR__ . '/..' . '/tracy/tracy/src/Tracy/Session/SessionStorage.php',
+        'UCDN' => __DIR__ . '/..' . '/mpdf/mpdf/classes/ucdn.php',
         'UnhandledMatchError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
         'ValueError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
+        'bmp' => __DIR__ . '/..' . '/mpdf/mpdf/classes/bmp.php',
+        'cssmgr' => __DIR__ . '/..' . '/mpdf/mpdf/classes/cssmgr.php',
+        'directw' => __DIR__ . '/..' . '/mpdf/mpdf/classes/directw.php',
+        'fpdi_pdf_parser' => __DIR__ . '/..' . '/setasign/fpdi/fpdi_pdf_parser.php',
+        'grad' => __DIR__ . '/..' . '/mpdf/mpdf/classes/grad.php',
+        'mPDF' => __DIR__ . '/..' . '/mpdf/mpdf/mpdf.php',
+        'meter' => __DIR__ . '/..' . '/mpdf/mpdf/classes/meter.php',
+        'mpdfform' => __DIR__ . '/..' . '/mpdf/mpdf/classes/mpdfform.php',
+        'otl' => __DIR__ . '/..' . '/mpdf/mpdf/classes/otl.php',
+        'pdf_context' => __DIR__ . '/..' . '/setasign/fpdi/pdf_context.php',
+        'tocontents' => __DIR__ . '/..' . '/mpdf/mpdf/classes/tocontents.php',
+        'wmf' => __DIR__ . '/..' . '/mpdf/mpdf/classes/wmf.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

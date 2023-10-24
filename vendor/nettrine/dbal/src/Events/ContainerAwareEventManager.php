@@ -58,6 +58,14 @@ class ContainerAwareEventManager extends DoctrineEventManager
 	}
 
 	/**
+	 * @return object[]|object[][]
+	 */
+	public function getAllListeners(): array
+	{
+		return $this->getListeners();
+	}
+
+	/**
 	 * @return object[]
 	 */
 	private function getInitializedListeners(string $event): array
@@ -101,11 +109,13 @@ class ContainerAwareEventManager extends DoctrineEventManager
 			if ($this->initialized) {
 				throw new RuntimeException('Adding lazy-loading listeners after construction is not supported.');
 			}
+
 			$hash = 'service@' . $listener;
 		} else {
 			// Picks the hash code related to that listener
 			$hash = spl_object_hash($listener);
 		}
+
 		foreach ((array) $events as $event) {
 			// Overrides listener if a previous one was associated already
 			// Prevents duplicate listeners on same event (same instance only)

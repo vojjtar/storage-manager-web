@@ -12,6 +12,7 @@ use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Schema\Sequence;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\Visitor\RemoveNamespacedAssets;
 use Doctrine\Deprecations\Deprecation;
@@ -406,8 +407,14 @@ class SchemaTool
             }
         }
 
-        if (! $this->platform->supportsSchemas() && ! $this->platform->canEmulateSchemas()) {
-            $schema->visit(new RemoveNamespacedAssets());
+        if (! $this->platform->supportsSchemas()) {
+            $filter = /** @param Sequence|Table $asset */ static function ($asset) use ($schema): bool {
+                return ! $asset->isInDefaultNamespace($schema->getName());
+            };
+
+            if (array_filter($schema->getSequences() + $schema->getTables(), $filter) && ! $this->platform->canEmulateSchemas()) {
+                $schema->visit(new RemoveNamespacedAssets());
+            }
         }
 
         if ($eventManager->hasListeners(ToolEvents::postGenerateSchema)) {
@@ -814,8 +821,8 @@ class SchemaTool
             return [];
         }
 
-        $options                        = array_intersect_key($mappingOptions, array_flip(self::KNOWN_COLUMN_OPTIONS));
-        $options['customSchemaOptions'] = array_diff_key($mappingOptions, $options);
+        $options                    = array_intersect_key($mappingOptions, array_flip(self::KNOWN_COLUMN_OPTIONS));
+        $options['platformOptions'] = array_diff_key($mappingOptions, $options);
 
         return $options;
     }

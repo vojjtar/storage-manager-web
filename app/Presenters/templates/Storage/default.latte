@@ -32,6 +32,7 @@
                     <th scope="col">Name</th>
                     <th scope="col">Description</th>
                     <th scope="col">Product Code</th>
+                    <th scope="col">Qty</th>
                     <th scope="col">Price ($USD)</th>
                     <th scope="col">Detail</th>
                     <th scope="col">Edit</th>
@@ -46,6 +47,7 @@
                         <td>{$item->getName()}</td>
                         <td>{$item->getDescription()}</td>
                         <td>{$item->getCode()}</td>
+                        <td>{$item->getQty()}</td>
                         <td>{$item->getPrice()}</td>
                         <td><a class="ml-auto ajax" n:href="showHistory!, $item->getId()"><button class="btn btn-sm btn-info">Info <i class="fa-solid fa-info"></i></button></a></td>
                         {* <td><button class="btn btn-sm btn-info">Detail <i class="fa-solid fa-info"></i></button></td> *}

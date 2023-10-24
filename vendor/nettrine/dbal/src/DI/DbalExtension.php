@@ -13,9 +13,9 @@ use Nette\DI\CompilerExtension;
 use Nette\DI\Definitions\Definition;
 use Nette\DI\Definitions\ServiceDefinition;
 use Nette\DI\Definitions\Statement;
-use Nette\PhpGenerator\PhpLiteral;
 use Nette\Schema\Expect;
 use Nette\Schema\Schema;
+use Nettrine\DBAL\ConnectionAccessor;
 use Nettrine\DBAL\ConnectionFactory;
 use Nettrine\DBAL\Events\ContainerAwareEventManager;
 use Nettrine\DBAL\Events\DebugEventManager;
@@ -41,6 +41,7 @@ final class DbalExtension extends CompilerExtension
 			'configuration' => Expect::structure([
 				'sqlLogger' => Expect::anyOf(Expect::string(), Expect::array(), Expect::type(Statement::class)),
 				'resultCache' => Expect::anyOf(Expect::string(), Expect::array(), Expect::type(Statement::class)),
+				'schemaAssetsFilter' => Expect::anyOf(Expect::string(), Expect::type(Statement::class)),
 				'filterSchemaAssetsExpression' => Expect::string()->nullable(),
 				'autoCommit' => Expect::bool(true),
 			]),
@@ -55,6 +56,7 @@ final class DbalExtension extends CompilerExtension
 							if (is_string($type)) {
 								return ['class' => $type];
 							}
+
 							return $type;
 						})
 						->castTo('array')
@@ -82,14 +84,7 @@ final class DbalExtension extends CompilerExtension
 		$config = $this->config->configuration;
 		$definitionsHelper = new ExtensionDefinitionsHelper($this->compiler);
 
-		$loggerDefinition = $builder->addDefinition($this->prefix('logger'))
-			->setType(LoggerChain::class)
-			->setAutowired('self');
-
-		$configuration = $builder->addDefinition($this->prefix('configuration'));
-		$configuration->setFactory(Configuration::class)
-			->setAutowired(false)
-			->addSetup('setSQLLogger', [$loggerDefinition]);
+		$loggers = [];
 
 		// SqlLogger (append to chain)
 		if ($config->sqlLogger !== null) {
@@ -101,8 +96,29 @@ final class DbalExtension extends CompilerExtension
 				$configLoggerDefinition->setAutowired(false);
 			}
 
-			$loggerDefinition->addSetup('addLogger', [$configLoggerDefinition]);
+			$loggers[] = $configLoggerDefinition;
 		}
+
+		$debugConfig = $this->config->debug;
+		if ($debugConfig->panel) {
+			$profiler = $builder->addDefinition($this->prefix('profiler'))
+				->setType(ProfilerLogger::class);
+			foreach ($debugConfig->sourcePaths as $path) {
+				$profiler->addSetup('addPath', [$path]);
+			}
+
+			$loggers[] = $profiler;
+		}
+
+		$loggerDefinition = $builder->addDefinition($this->prefix('logger'))
+			->setType(LoggerChain::class)
+			->setArguments(['loggers' => $loggers])
+			->setAutowired('self');
+
+		$configuration = $builder->addDefinition($this->prefix('configuration'));
+		$configuration->setFactory(Configuration::class)
+			->setAutowired(false)
+			->addSetup('setSQLLogger', [$loggerDefinition]);
 
 		// ResultCache
 		if ($config->resultCache !== null) {
@@ -120,6 +136,11 @@ final class DbalExtension extends CompilerExtension
 		$configuration->addSetup('setResultCacheImpl', [
 			$resultCacheDefinition,
 		]);
+
+		// SchemaAssetsFilter
+		if ($config->schemaAssetsFilter !== null) {
+			$configuration->addSetup('setSchemaAssetsFilter', [$config->schemaAssetsFilter]);
+		}
 
 		// FilterSchemaAssetsExpression
 		if ($config->filterSchemaAssetsExpression !== null) {
@@ -149,37 +170,27 @@ final class DbalExtension extends CompilerExtension
 			->setFactory(ConnectionFactory::class, [$config['types'], $config['typesMapping']]);
 
 		$connectionDef = $builder->addDefinition($this->prefix('connection'))
-			->setFactory(Connection::class)
+			->setType(Connection::class)
 			->setFactory('@' . $this->prefix('connectionFactory') . '::createConnection', [
 				$config,
 				'@' . $this->prefix('configuration'),
 				$builder->getDefinitionByType(EventManager::class),
 			]);
 
-		$debugConfig = $this->config->debug;
-		if ($debugConfig->panel) {
+		if ($this->config->debug->panel) {
 			$connectionDef
-				->addSetup('$profiler = ?', [
-					new Statement(ProfilerLogger::class, [$connectionDef]),
-				]);
-
-			foreach ($debugConfig->sourcePaths as $path) {
-				$connectionDef->addSetup('$profiler->addPath(?)', [$path]);
-			}
-
-			$connectionDef->addSetup('?->getConfiguration()->getSqlLogger()->addLogger(?)', [
-					'@self',
-					new PhpLiteral('$profiler'),
-				])
 				->addSetup('@Tracy\Bar::addPanel', [
 					new Statement(QueryPanel::class, [
-						new PhpLiteral('$profiler'),
+						$this->prefix('@profiler'),
 					]),
 				])
 				->addSetup('@Tracy\BlueScreen::addPanel', [
 					[DbalBlueScreen::class, 'renderException'],
 				]);
 		}
+
+		$builder->addAccessorDefinition($this->prefix('connectionAccessor'))
+			->setImplement(ConnectionAccessor::class);
 	}
 
 	/**

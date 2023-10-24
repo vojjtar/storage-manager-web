@@ -7,6 +7,9 @@ namespace Doctrine\ORM\Mapping;
 use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Platforms;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Platforms\MySQLPlatform;
+use Doctrine\DBAL\Platforms\SqlitePlatform;
+use Doctrine\DBAL\Platforms\SQLServerPlatform;
 use Doctrine\Deprecations\Deprecation;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
@@ -110,7 +113,7 @@ class ClassMetadataFactory extends AbstractClassMetadataFactory
         if ($parent) {
             $class->setInheritanceType($parent->inheritanceType);
             $class->setDiscriminatorColumn($parent->discriminatorColumn);
-            $class->setIdGeneratorType($parent->generatorType);
+            $this->inheritIdGeneratorMapping($class, $parent);
             $this->addInheritedFields($class, $parent);
             $this->addInheritedRelations($class, $parent);
             $this->addInheritedEmbeddedClasses($class, $parent);
@@ -138,12 +141,8 @@ class ClassMetadataFactory extends AbstractClassMetadataFactory
             throw MappingException::reflectionFailure($class->getName(), $e);
         }
 
-        // If this class has a parent the id generator strategy is inherited.
-        // However this is only true if the hierarchy of parents contains the root entity,
-        // if it consists of mapped superclasses these don't necessarily include the id field.
-        if ($parent && $rootEntityFound) {
-            $this->inheritIdGeneratorMapping($class, $parent);
-        } else {
+        // Complete id generator mapping when the generator was declared/added in this class
+        if ($class->identifier && (! $parent || ! $parent->identifier)) {
             $this->completeIdGeneratorMapping($class);
         }
 
@@ -621,9 +620,11 @@ class ClassMetadataFactory extends AbstractClassMetadataFactory
             case ClassMetadata::GENERATOR_TYPE_IDENTITY:
                 $sequenceName = null;
                 $fieldName    = $class->identifier ? $class->getSingleIdentifierFieldName() : null;
+                $platform     = $this->getTargetPlatform();
 
                 // Platforms that do not have native IDENTITY support need a sequence to emulate this behaviour.
-                if ($this->getTargetPlatform()->usesSequenceEmulatedIdentityColumns()) {
+                /** @psalm-suppress UndefinedClass, InvalidClass */
+                if (! $platform instanceof MySQLPlatform && ! $platform instanceof SqlitePlatform && ! $platform instanceof SQLServerPlatform && $platform->usesSequenceEmulatedIdentityColumns()) {
                     Deprecation::trigger(
                         'doctrine/orm',
                         'https://github.com/doctrine/orm/issues/8850',

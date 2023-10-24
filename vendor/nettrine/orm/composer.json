@@ -4,7 +4,7 @@
   "keywords": ["nette", "doctrine", "orm", "database"],
   "type": "library",
   "license": "MIT",
-  "homepage": "https://github.com/nettrine/orm",
+  "homepage": "https://github.com/contributte/doctrine-orm",
   "authors": [
     {
       "name": "Milan Felix Šulc",
@@ -47,7 +47,10 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "config": {
-    "sort-packages": true
+    "sort-packages": true,
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
   },
   "extra": {
     "branch-alias": {

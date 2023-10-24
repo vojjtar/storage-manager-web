@@ -26,6 +26,9 @@ class Storage
     #[ORM\Column(type: 'integer')]
     private $code;
 
+    #[ORM\Column(type: 'integer')]
+    private $qty;
+
     #[ORM\Column(type: 'float')]
     private $price;
 
@@ -78,6 +81,16 @@ class Storage
     public function setCode(int $code): void
     {
         $this->code = $code;
+    }
+
+    public function getQty(): int
+    {
+        return $this->qty;
+    }
+
+    public function setQty(int $qty): void
+    {
+        $this->qty = $qty;
     }
 
     public function getPrice(): float
