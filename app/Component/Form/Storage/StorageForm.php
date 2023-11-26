@@ -9,6 +9,8 @@ use Nette\Application\UI\Form;
 use App\Model\Entity\Storage;
 use App\Model\Service\StorageService;
 use App\Model\Service\WarehouseService;
+use Mpdf\Mpdf;
+use App\Util\InvoiceGenerator;
 
 
 class StorageForm extends Control
@@ -16,17 +18,26 @@ class StorageForm extends Control
     public function __construct(
         private Storage|null $storage,
         private StorageService $storageService,
-        private WarehouseService $warehouseService
+        private WarehouseService $warehouseService,
+        private InvoiceGenerator $invoiceGenerator,
     ) {
         $this->storage = $storage;
         $this->storageService = $storageService;
         $this->warehouseService = $warehouseService;
+        $this->invoiceGenerator = $invoiceGenerator;
     }
 
     public function render(): void {
         if ($this->presenter->showMove) {
             $this->template->render(__DIR__ . '/Template/move.latte');
-        } else {
+        } 
+        if ($this->presenter->showAddTo) {
+            $this->template->render(__DIR__ . '/Template/addTo.latte');
+        } 
+        if ($this->presenter->showSend) {
+            $this->template->render(__DIR__ . '/Template/send.latte');
+        }
+        else {
             $this->template->render(__DIR__ . '/Template/default.latte');
         }
     }
@@ -60,6 +71,65 @@ class StorageForm extends Control
 		return $form;
     }
 
+    public function createComponentAddToStorageForm(): Form {
+
+        $form = new Form();
+
+        $form->addHidden('id', '');
+        $form->addInteger('qty', 'Quantity:')->setHtmlAttribute('class', 'form-control');
+        $form->addSubmit('save', 'Save')->setHtmlAttribute('class', 'btn btn-primary')->getControlPrototype();
+
+        if ($this->storage !== null) {
+            $form->setDefaults([
+                'id' => $this->storage->getId(),
+            ]);
+        }
+
+        $form->onSuccess[] = [$this, 'addToStorage'];
+
+        return $form;
+    }
+
+    public function addToStorage(Form $form, $data) {
+        $item_id = (int)$data['id'];
+        $amount = $data['qty'];
+
+        $this->storageService->addToStorage($item_id, $amount);
+        $this->presenter->flashMessage('Storage added.');
+    }
+
+    public function createComponentSendStorageForm() {
+        $form = new Form();
+
+        $form->addHidden('id', '');
+        $form->addInteger('qty', 'Quantity:')->setHtmlAttribute('class', 'form-control');
+        $form->addSubmit('save', 'Save')->setHtmlAttribute('class', 'btn btn-primary')->getControlPrototype();
+
+        if ($this->storage !== null) {
+            $form->setDefaults([
+                'id' => $this->storage->getId(),
+            ]);
+        }
+
+        $form->onSuccess[] = [$this, 'sendStorage'];
+
+        return $form;
+    }
+
+    public function sendStorage(Form $form, $data) {
+        $item_id = (int)$data['id'];
+        $amount = $data['qty'];
+
+        $this->storageService->sendStorage($item_id, $amount);
+
+        $invoiceString = $this->invoiceGenerator->generateInvoice($item_id, $amount);
+        $mpdf = new Mpdf();
+        $mpdf->WriteHTML($invoiceString);
+        $mpdf->Output();
+
+        $this->presenter->flashMessage('Storage sent.');
+    }
+
     public function storageFormOnSuccess(Form $form, $data): void {
         $already_exists = $this->storageService->getStorageByCode($data['code']);
 
@@ -88,7 +158,7 @@ class StorageForm extends Control
 
         $form->addInteger('qty', 'Quantity:')->setHtmlAttribute('class', 'form-control');
 
-        bdump($warehouses);
+        // bdump($warehouses);
 
         $warehousesArray = [];
         foreach ($warehouses as $warehouse) {

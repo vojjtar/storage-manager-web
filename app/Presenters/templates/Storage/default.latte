@@ -20,7 +20,7 @@
     <div class="mx-5 mt-2">
         <div class="bg-dark p-2 rounded-top d-flex justify-content-start text-light">
             <a class="ajax" n:href="show!">
-                <button class="btn btn-sm btn-success">Add item</button>
+                <button class="btn btn-sm btn-success">Add new item</button>
             </a>
             <h5 class="ml-1">to -> {$warehouse->getName()}</h5>
         </div>
@@ -34,7 +34,9 @@
                     <th scope="col">Product Code</th>
                     <th scope="col">Qty</th>
                     <th scope="col">Price ($USD)</th>
+                    <th scope="col">Add</th>
                     <th scope="col">Detail</th>
+                    <th scope="col">Send out</th>
                     <th scope="col">Edit</th>
                     <th scope="col">Move</th>
                     <th scope="col">Delete</th>
@@ -49,12 +51,11 @@
                         <td>{$item->getCode()}</td>
                         <td>{$item->getQty()}</td>
                         <td>{$item->getPrice()}</td>
+                        <td><a class="ml-auto ajax" n:href="addItem!, $item->getId()"><button class="btn btn-sm btn-success">Add <i class="fa-solid fa-plus"></i></button></a></td>
                         <td><a class="ml-auto ajax" n:href="showHistory!, $item->getId()"><button class="btn btn-sm btn-info">Info <i class="fa-solid fa-info"></i></button></a></td>
-                        {* <td><button class="btn btn-sm btn-info">Detail <i class="fa-solid fa-info"></i></button></td> *}
-                        {* <td><button class="btn btn-sm btn-warning">Edit <i class="fa-solid fa-pencil"></i></button></td> *}
+                        <td><a class="ml-auto ajax" n:href="showSend!, $item->getId()"><button class="btn btn-sm btn-info">Send <i class="fa-solid fa-right-long"></i></button></a></td>
                         <td><a class="ml-auto ajax" n:href="show! $item->getId()"><button class="btn btn-sm btn-warning">Edit <i class="fa-solid fa-pencil"></i></button></a></td>
                         <td><a class="ml-auto ajax" n:href="showMove! $item->getId()"><button class="btn btn-sm btn-warning">Move <i class="fa-solid fa-arrow-right"></i></button></a></td>
-                        {* <td><button class="btn btn-sm btn-warning">Move <i class="fa-solid fa-arrow-right"></i></button></td> *}
                         <td><a class="ml-auto" n:href="deleteStorage!, $item->getId()"><button type="submit" name="deleteButton" value="{$item->getId()}" class="btn btn-sm btn-danger">Delete <i class="fa-solid fa-trash"></i></button></a></td>
                     </tr>
                 {/foreach}
@@ -79,6 +80,48 @@
         <script>
             {if isset($id_item)}
                 $('#storage-add').modal('show');
+            {/if}
+        </script>
+    {/snippet}
+
+    {snippet addToStorageFormSnippet}
+        <div id="storage-add-to" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Add storage</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        {control addToStorageForm}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            {if isset($id_item)}
+                $('#storage-add-to').modal('show');
+            {/if}
+        </script>
+    {/snippet}
+
+    {snippet sendStorageFormSnippet}
+        <div id="storage-send" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Send storage</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        {control addToStorageForm}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            {if isset($id_item)}
+                $('#storage-send').modal('show');
             {/if}
         </script>
     {/snippet}

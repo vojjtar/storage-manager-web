@@ -34,6 +34,4 @@ class UserService
         $this->entityManager->persist($user);
         $this->entityManager->flush();
     }
-
-
 }

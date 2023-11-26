@@ -22,6 +22,8 @@ final class StoragePresenter extends Presenter
     public int|null $id_item = null;
 
     public bool|null $showMove = false;
+    public bool|null $showAddTo = false;
+    public bool|null $showSend = false;
 
     public function __construct(
         StorageService      $storageService,
@@ -62,6 +64,27 @@ final class StoragePresenter extends Presenter
         return $this->storageFormFactory->create($storage);
     }
 
+    public function createComponentAddToStorageForm(): StorageForm
+    {
+        $storage = null;
+        
+        if ($this->id_item !== null) {
+            $storage = $this->storageService->getStorageSpecific($this->id_item);
+        }
+
+        return $this->storageFormFactory->create($storage);
+    }
+
+    public function createComponentSendStorageForm(): StorageForm {
+        $storage = null;
+        
+        if ($this->id_item !== null) {
+            $storage = $this->storageService->getStorageSpecific($this->id_item);
+        }
+
+        return $this->storageFormFactory->create($storage);
+    }
+
     public function handleDeleteStorage($itemId): void
     {
         $this->storageService->deleteStorage($itemId);
@@ -90,6 +113,8 @@ final class StoragePresenter extends Presenter
             $this->template->id_item = intval($id_item);
             $this->id_item = intval($id_item);
             $this->showMove = false;
+            $this->showAddTo = false;
+            $this->showSend = false;
             $this->redrawControl('storageFormSnippet');
         }
     }
@@ -99,6 +124,8 @@ final class StoragePresenter extends Presenter
             $this->template->id_item = intval($id_item);
             $this->id_item = intval($id_item);
             $this->showMove = true;
+            $this->showAddTo = false;
+            $this->showSend = false;
             $this->redrawControl('storageFormMoveSnippet');
         }
     }
@@ -111,6 +138,28 @@ final class StoragePresenter extends Presenter
                 $this->template->movements = $movements;
                 $this->redrawControl('movementHistory');   
             }
+        }
+    }
+
+    public function handleAddItem($id_item) {
+        if ($this->isAjax()) {
+            $this->template->id_item = intval($id_item);
+            $this->id_item = intval($id_item);
+            $this->showMove = false;
+            $this->showAddTo = true;
+            $this->showSend = false;
+            $this->redrawControl('addToStorageFormSnippet');
+        }
+    }
+
+    public function handleShowSend($id_item) {
+        if ($this->isAjax()) {
+            $this->template->id_item = intval($id_item);
+            $this->id_item = intval($id_item);
+            $this->showMove = false;
+            $this->showAddTo = false;
+            $this->showSend = true;
+            $this->redrawControl('sendStorageFormSnippet');
         }
     }
 

@@ -63,6 +63,30 @@ class StorageService
         $this->entityManager->flush();
     }
 
+    public function addToStorage($item_id, $amount): void {
+        $storageItem = $this->entityManager->find(Storage::class, $item_id);
+
+        if ($storageItem) {
+            $currentQuantity = $storageItem->getQty();
+            $storageItem->setQty((int)($currentQuantity + $amount));
+
+            $this->entityManager->persist($storageItem);
+            $this->entityManager->flush();
+        }
+    }
+
+    public function sendStorage($item_id, $amount) {
+        $storageItem = $this->entityManager->find(Storage::class, $item_id);
+
+        if ($storageItem) {
+            $currentQuantity = $storageItem->getQty();
+            $storageItem->setQty((int)($currentQuantity - $amount));
+
+            $this->entityManager->persist($storageItem);
+            $this->entityManager->flush();
+        }
+    }
+
     public function editStorage($data): void {
         $queryBuilder = $this->entityManager->createQueryBuilder();
         $queryBuilder->update(Storage::class, 's')

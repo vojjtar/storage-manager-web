@@ -9,6 +9,7 @@ use Nette;
 use Nette\Application\UI\Presenter;
 use App\Model\Service\WarehouseService;
 use App\Component\Form\Warehouse\WarehouseForm;
+use Mpdf\Mpdf;
 
 
 class WarehousePresenter extends Presenter

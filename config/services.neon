@@ -18,4 +18,5 @@ services:
 	- App\Model\Service\UserService
 	- App\Model\Manager\UserManager
 	- Contributte\Console\Application
+	- App\Util\InvoiceGenerator
 	security.passwords: Nette\Security\Passwords(::PASSWORD_BCRYPT, [cost: 12])

@@ -21,7 +21,7 @@
 		"tracy/tracy": "^2.9",
 		"contributte/console": "^0.9.2",
 		"nettrine/orm": "^0.8.3",
-		"mpdf/mpdf": "^6.1"
+		"mpdf/mpdf": "^8.2"
 	},
 	"require-dev": {
 		"nette/tester": "^2.4",
